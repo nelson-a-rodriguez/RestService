@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestService", "RestService\RestService.csproj", "{CBC23EB9-BD21-4585-A3AE-A259FBB51BF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{34FB41EC-A299-4CCD-9AB3-52C94091C351}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RFCWEBSAP", "..\RFCWEBSAP\RFCWEBSAP\RFCWEBSAP.csproj", "{AFBD5F0F-0EF0-43C5-811F-D96ACEA057D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,10 @@ Global
 		{CBC23EB9-BD21-4585-A3AE-A259FBB51BF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBC23EB9-BD21-4585-A3AE-A259FBB51BF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBC23EB9-BD21-4585-A3AE-A259FBB51BF8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34FB41EC-A299-4CCD-9AB3-52C94091C351}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34FB41EC-A299-4CCD-9AB3-52C94091C351}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{34FB41EC-A299-4CCD-9AB3-52C94091C351}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{34FB41EC-A299-4CCD-9AB3-52C94091C351}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFBD5F0F-0EF0-43C5-811F-D96ACEA057D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFBD5F0F-0EF0-43C5-811F-D96ACEA057D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFBD5F0F-0EF0-43C5-811F-D96ACEA057D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFBD5F0F-0EF0-43C5-811F-D96ACEA057D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

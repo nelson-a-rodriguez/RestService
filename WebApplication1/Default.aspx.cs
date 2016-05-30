@@ -20,16 +20,60 @@ namespace SampleRestWeb
 {
     public partial class _Default : System.Web.UI.Page
     {
-        Entorno entornojson = new Entorno();
+        //Entorno entornojson = new Entorno();
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            string jsonStringConexion = "{"
+                        + "\"Name\" : \"DV1\","
+                        + "\"User\" : \"webplz\","
+                        + "\"Password\" : \"webplz.2015\","
+                        + "\"Client\" : \"300\","
+                        + "\"Language\" : \"S\","
+                        + "\"AppServerHost\" : \"172.20.3.200\","
+                        + "\"SystemNumber\" : \"00\","
+                        + "\"PoolSize\" : \"10\","
+                        + "\"ConnectionIdleTimeout\" : \"10\"}";
+
             string jsonString = "{"
-                        + "\"Nombre\" : \"QA\","
-                        + "\"Valor\" : \"QA1\"}";
+                        + "\"Name\" : \"DV1\","
+                        + "\"User\" : \"webplz\","
+                        + "\"Password\" : \"webplz.2015\","
+                        + "\"Client\" : \"300\","
+                        + "\"Language\" : \"S\","
+                        + "\"AppServerHost\" : \"172.20.3.200\","
+                        + "\"SystemNumber\" : \"00\","
+                        + "\"PoolSize\" : \"10\","
+                        + "\"ConnectionIdleTimeout\" : \"10\","
+                        + "\"DIRECT\" : \"\","
+                        + "\"IDOCTYP\" : \"\","
+                        + "\"MANDT\" : \"\","
+                        + "\"MESTYP\" : \"\","
+                        + "\"RCVPOR\" : \"\","
+                        + "\"RCVPRN\" : \"\","
+                        + "\"RCVPRT\" : \"\","
+                        + "\"SNDPOR\" : \"\","
+                        + "\"SNDPRN\" : \"\","
+                        + "\"SNDPRT\" : \"\","
+                        + "\"Documento\" : \"V-2896298\","
+                        + "\"Nombre\" : \"QAaaaaaa\","
+                        + "\"Apellido\" : \"QAaaaaaaa\","
+                        + "\"Direccion\" : \"QAAAAAAAAAAA\","
+                         + "\"Ciudad\" : \"QAAAAAAAAAAA\","
+                        + "\"Pais\" : \"VE\","
+                        + "\"Estado\" : \"VAR\","
+                        + "\"CodigoPostal\" : \"1070\","
+                        + "\"PuntoDeReferencia\" : \"QAaaaaaaaaaaaaa\","
+                        + "\"Telefono1\" : \"22222222\","
+                        + "\"Telefono2\" : \"22222222\","
+                        + "\"Email\" : \"222@2.com\","
+                        + "\"OrganizacionDeVentas\" : \"0100\","
+                        + "\"CanalDeDistribucion\" : \"02\","
+                        + "\"Division\" : \"01\"}";
 
-            const string url = "http://172.20.1.36/nuevaweb/RestServiceImpl.svc/";
-
+            //const string url = "http://172.20.1.36/nuevaweb/RestServiceImpl.svc/";
+            const string url = "http://172.20.1.36/RestServiceImpl.svc/";
+            //const string url = "http://localhost:1307/RestServiceImpl.svc/";
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             try
             {
@@ -41,12 +85,15 @@ namespace SampleRestWeb
                 request.AddHeader("Content-Length", int.MaxValue.ToString());
                 request.Method = Method.POST;
                 request.RequestFormat = DataFormat.Json;
-                request.AddBody(jsonString);
-                request.Resource = "/postjerarquiaweb";
+                request.AddBody(jsonStringConexion);
+                //request.AddBody(jsonString);
+                //request.Resource = "/jerarquiaweb";
+                request.Resource = "/inventario/1017/13W0100101";
+                //request.Resource = "/insupdcliente";
+                //request.Resource = "/insupddeldireccion";
                 // The server's Rest method will probably return something 
                 var response = client.Execute(request) as RestResponse;
-                if (response != null && ((response.StatusCode == HttpStatusCode.OK) &&
-                 (response.ResponseStatus == ResponseStatus.Completed))) // It's probably not necessary to test both
+                if (response != null && ((response.StatusCode == HttpStatusCode.OK) && (response.ResponseStatus == ResponseStatus.Completed))) // It's probably not necessary to test both
                 {
                     var obj = response.Content;
                     Response.Write(obj);

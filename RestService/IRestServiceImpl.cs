@@ -15,33 +15,195 @@ namespace RestService
     public interface IRestServiceImpl
     {
         [OperationContract]
-        [WebInvoke(Method = "GET",
+        [WebInvoke(Method = "POST",
+            RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "getinventario/{sCentro}/{sJerarquiaWeb}")]
-        List<RegistroInventario> Inventario(string sCentro, string sJerarquiaWeb);
-
-        [OperationContract]
-        [WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "getjerarquiaweb")]
-        List<RegistroJerarquiaWeb> JerarquiaWeb();
+            UriTemplate = "inventario/{sCentro}/{sJerarquiaWeb}")]
+        List<RegistroInventario> Inventario(string sCentro, string sJerarquiaWeb, string jsonString);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "postjerarquiaweb")]
-        List<RegistroJerarquiaWeb> PostJerarquiaWeb(string jsonString);
+            UriTemplate = "jerarquiaweb")]
+        List<RegistroJerarquiaWeb> JerarquiaWeb(string jsonString);
 
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "insupdcliente")]
+        RespuestaInsUpdCliente InsUpdCliente(string jsonString);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "insupddeldireccion")]
+        RespuestaInsUpdDelDireccion InsUpdDelDireccion(string jsonString);        
     }
-     
+
     [DataContract]
-    public class Entorno
+    public class DatosConexion
     {
+        //PARAMETROS DE CONFIGURACIÓN - CONEXION A SAP
         [DataMember]
-        public string Nombre { get; set; }
+        public string Name { set; get; }
         [DataMember]
-        public string Valor { get; set; }
+        public string User { set; get; }
+        [DataMember]
+        public string Password { set; get; }
+        [DataMember]
+        public string Client { set; get; }
+        [DataMember]
+        public string Language { set; get; }
+        [DataMember]
+        public string AppServerHost { set; get; }
+        [DataMember]
+        public string SystemNumber { set; get; }
+        [DataMember]
+        public string PoolSize { set; get; }
+        [DataMember]
+        public string ConnectionIdleTimeout { set; get; }
     }
 
+    [DataContract]
+    public class DatosCliente
+    {
+        //PARAMETROS DE CONFIGURACIÓN - CONEXION A SAP
+        [DataMember]
+        public string Name { set; get; }//="DV1" 
+        [DataMember]
+        public string User { set; get; }//="webplz" 
+        [DataMember]
+        public string Password { set; get; }//="webplz.2015" 
+        [DataMember]
+        public string Client { set; get; }//="300" 
+        [DataMember]
+        public string Language { set; get; }//="S" 
+        [DataMember]
+        public string AppServerHost { set; get; }//="172.20.3.200" 
+        [DataMember]
+        public string SystemNumber { set; get; }//="00"
+        [DataMember]
+        public string PoolSize { set; get; }//="10" 
+        [DataMember]
+        public string ConnectionIdleTimeout { set; get; }//="10"
+        //PARAMETROS CONFIGURACIÓN - ESTRUCTURA DE CONTROL PARA INTERCAMBIO DE IDOCS
+        [DataMember]
+        public string DIRECT { set; get; }
+        [DataMember]
+        public string IDOCTYP { set; get; }
+        [DataMember]
+        public string MANDT { set; get; }
+        [DataMember]
+        public string MESTYP { set; get; }
+        [DataMember]
+        public string RCVPOR { set; get; }
+        [DataMember]
+        public string RCVPRN { set; get; }
+        [DataMember]
+        public string RCVPRT { set; get; }
+        [DataMember]
+        public string SNDPOR { set; get; }
+        [DataMember]
+        public string SNDPRN { set; get; }
+        [DataMember]
+        public string SNDPRT { set; get; }
+        //DATOS DEL CLIENTE - ZCLIENTE
+        [DataMember]
+        public string Documento { set; get; } 
+        [DataMember]
+        public string Nombre { set; get; }
+        [DataMember]
+        public string Apellido { set; get; } 
+        [DataMember]
+        public string Direccion { set; get; } 
+        [DataMember]
+        public string Ciudad { set; get; }
+        [DataMember]
+        public string Pais { set; get; }
+        [DataMember]
+        public string Estado { set; get; } 
+        [DataMember]
+        public string CodigoPostal { set; get; }
+        [DataMember]
+        public string PuntoDeReferencia { set; get; } 
+        [DataMember]
+        public string Telefono1 { set; get; } 
+        [DataMember]
+        public string Telefono2 { set; get; }
+        [DataMember]
+        public string Email { set; get; }
+        //DATOS DEL CLIENTE - ZAREA_VTAS
+        [DataMember]
+        public string OrganizacionDeVentas { set; get; } 
+        [DataMember]
+        public string CanalDeDistribucion { set; get; } 
+        [DataMember]
+        public string Division { set; get; }
+    }
+
+    [DataContract]
+    public class DatosDireccion
+    {
+        //PARAMETROS DE CONFIGURACIÓN - CONEXION A SAP
+        [DataMember]
+        public string Name { set; get; }
+        [DataMember]
+        public string User { set; get; }
+        [DataMember]
+        public string Password { set; get; }
+        [DataMember]
+        public string Client { set; get; }
+        [DataMember]
+        public string Language { set; get; }
+        [DataMember]
+        public string AppServerHost { set; get; }
+        [DataMember]
+        public string SystemNumber { set; get; }
+        [DataMember]
+        public string PoolSize { set; get; }
+        [DataMember]
+        public string ConnectionIdleTimeout { set; get; }
+        //DATOS DE DIRECCION - Z_DIRECC
+        [DataMember]
+        public string idClienteSapPrincipal { set; get; }
+        [DataMember]
+        public string DocumentoPrincipal { set; get; } 
+        [DataMember]
+        public string idClienteSapAlterno { set; get; }
+        [DataMember]
+        public string DocumentoAlterno { set; get; } 
+        [DataMember]
+        public string Nombre { set; get; } 
+        [DataMember]
+        public string Apellido { set; get; }
+        [DataMember]
+        public string Dirección { set; get; }
+        [DataMember]
+        public string Ciudad { set; get; } 
+        [DataMember]
+        public string Pais { set; get; } 
+        [DataMember]
+        public string Estado { set; get; }
+        [DataMember]
+        public string CodigoPostal { set; get; }
+        [DataMember]
+        public string PuntoDeReferencia { set; get; }
+        [DataMember]
+        public string Telefono1 { set; get; } 
+        [DataMember]
+        public string Telefono2 { set; get; } 
+        [DataMember]
+        public string Email { set; get; } 
+        [DataMember]
+        public string OrganizacionDeVentas { set; get; } 
+        [DataMember]
+        public string CanalDeDistribucion { set; get; } 
+        [DataMember]
+        public string Division { set; get; }
+        [DataMember]
+        public string Accion { set; get; }         
+    }
 }

@@ -21,40 +21,337 @@ namespace RestService
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class RestServiceImpl : IRestServiceImpl
     {
-        public List<RegistroInventario> Inventario(string sCentro, string sJerarquiaWeb)
+        public List<RegistroInventario> Inventario(string sCentro, string sJerarquiaWeb, string jsonString)
         {
-            string EntornoSAP = System.Configuration.ConfigurationManager.AppSettings["EntornoSAP"];
-            RepositorioSAP rep = new RepositorioSAP(EntornoSAP);
-            List<RegistroInventario> resultado = rep.ConsultarInventario(sCentro, sJerarquiaWeb);
-            return resultado;
-        }
-
-        public List<RegistroJerarquiaWeb> JerarquiaWeb()
-        {
-            string EntornoSAP = System.Configuration.ConfigurationManager.AppSettings["EntornoSAP"];
-            RepositorioSAP rep = new RepositorioSAP(EntornoSAP);
-            List<RegistroJerarquiaWeb> resultado = rep.ConsultarJerarquiaWeb();
-            return resultado;
-        }
-
-        public List<RegistroJerarquiaWeb> PostJerarquiaWeb(string jsonString)
-        {
-            string EntornoSAP;
-            //EL ENTONRNO SAP VIENE EN UN JSON RECIBIDO COMO STRING
-            if (!string.IsNullOrEmpty(jsonString))
+            try
             {
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-                var ent = serializer.Deserialize<Entorno>(jsonString);
-                EntornoSAP = ent.Valor;
-                RepositorioSAP rep = new RepositorioSAP(EntornoSAP);
-                List<RegistroJerarquiaWeb> resultado = rep.ConsultarJerarquiaWeb();
-                return resultado;
+                if (!string.IsNullOrEmpty(jsonString))
+                {
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    DatosConexion datosconexion = serializer.Deserialize<DatosConexion>(jsonString);
+                    RepositorioSAP.SapParametros parametros = new RepositorioSAP.SapParametros()
+                    {
+                        Name = datosconexion.Name,
+                        User = datosconexion.User,
+                        Password = datosconexion.Password,
+                        Client = datosconexion.Client,
+                        Language = datosconexion.Language,
+                        AppServerHost = datosconexion.AppServerHost,
+                        SystemNumber = datosconexion.SystemNumber,
+                        PoolSize = datosconexion.PoolSize,
+                        ConnectionIdleTimeout = datosconexion.ConnectionIdleTimeout
+                    };
+                    RepositorioSAP rep = new RepositorioSAP(parametros);
+                    List<RegistroInventario> resultado = rep.ConsultarInventario(sCentro, sJerarquiaWeb);
+                    return resultado;
+                }
+                else
+                {
+                    return new List<RegistroInventario>()
+                    {
+                        new RegistroInventario()
+                        {
+                            excode = -2,
+                        exdetail = "Archivo entrada vacío"
+                        }
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new List<RegistroInventario>()
+                {
+                    new RegistroInventario()
+                    {
+                        excode=ex.HResult, 
+                        exdetail=ex.Message
+                    }
+                };
+            }
+        }
+
+
+        public List<RegistroJerarquiaWeb> JerarquiaWeb(string jsonString)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(jsonString))
+                {
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    DatosCliente datoscliente = serializer.Deserialize<DatosCliente>(jsonString);
+                    RepositorioSAP.SapParametros parametros = new RepositorioSAP.SapParametros()
+                    {
+                        Name = datoscliente.Name,
+                        User = datoscliente.User,
+                        Password = datoscliente.Password,
+                        Client = datoscliente.Client,
+                        Language = datoscliente.Language,
+                        AppServerHost = datoscliente.AppServerHost,
+                        SystemNumber = datoscliente.SystemNumber,
+                        PoolSize = datoscliente.PoolSize,
+                        ConnectionIdleTimeout = datoscliente.ConnectionIdleTimeout
+                    };
+                    RepositorioSAP rep = new RepositorioSAP(parametros);
+                    List<RegistroJerarquiaWeb> resultado = rep.ConsultarJerarquiaWeb();
+                    return resultado;
+                }
+                else
+                {
+                    return new List<RegistroJerarquiaWeb>()
+                    {
+                        new RegistroJerarquiaWeb()
+                        {
+                            excode = -2,
+                        exdetail = "Archivo entrada vacío"
+                        }
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new List<RegistroJerarquiaWeb>()
+                {
+                    new RegistroJerarquiaWeb()
+                    {
+                        excode=ex.HResult, 
+                        exdetail=ex.Message
+                    }
+                };
+            }
+        }
+
+        public RespuestaInsUpdCliente InsUpdCliente(string jsonString)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(jsonString))
+                {
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    DatosCliente datoscliente = serializer.Deserialize<DatosCliente>(jsonString);
+                    RepositorioSAP.SapParametros parametros = new RepositorioSAP.SapParametros()
+                    {
+                        Name = datoscliente.Name,
+                        User = datoscliente.User,
+                        Password = datoscliente.Password,
+                        Client = datoscliente.Client,
+                        Language = datoscliente.Language,
+                        AppServerHost = datoscliente.AppServerHost,
+                        SystemNumber = datoscliente.SystemNumber,
+                        PoolSize = datoscliente.PoolSize,
+                        ConnectionIdleTimeout = datoscliente.ConnectionIdleTimeout
+                    };
+                    RepositorioSAP rep = new RepositorioSAP(parametros);
+                    string documentoformateado = FormatearDocumento(datoscliente.Documento);
+                    if (documentoformateado == "")
+                    {
+                        return new RespuestaInsUpdCliente()
+                        {
+                            excode = -1,
+                            exdetail = "Formato incorrecto Documento"
+                        };
+                    }
+                    RegistroCliente cliente = rep.ConsultarClienteSap(documentoformateado);
+                    if (cliente.CUSTOMERNO == "")
+                    {
+                        //crear
+                        RegistroCrearCliente registrocrearcliente = new RegistroCrearCliente()
+                        {
+                            DIRECT = datoscliente.DIRECT,
+                            IDOCTYP = datoscliente.IDOCTYP,
+                            MANDT = datoscliente.MANDT,
+                            MESTYP = datoscliente.MESTYP,
+                            RCVPOR = datoscliente.RCVPOR,
+                            RCVPRN = datoscliente.RCVPRN,
+                            RCVPRT = datoscliente.RCVPRT,
+                            SNDPOR = datoscliente.SNDPOR,
+                            SNDPRN = datoscliente.SNDPRN,
+                            SNDPRT = datoscliente.SNDPRT,
+                            //ZCLIENTE
+                            ZCLIENTE_STCD1 = documentoformateado,
+                            ZCLIENTE_FIRSTNAME = datoscliente.Nombre,
+                            ZCLIENTE_LASTNAME = datoscliente.Apellido,
+                            ZCLIENTE_STREET = datoscliente.Direccion,
+                            ZCLIENTE_PO_BOX = datoscliente.CodigoPostal,
+                            ZCLIENTE_REGION = datoscliente.Estado,
+                            ZCLIENTE_CITY = datoscliente.Ciudad,
+                            ZCLIENTE_COUNTRY = datoscliente.Pais,
+                            ZCLIENTE_REMARK = datoscliente.PuntoDeReferencia,
+                            ZCLIENTE_TEL_NUMBER = datoscliente.Telefono1,
+                            ZCLIENTE_MOB_NUMBER = datoscliente.Telefono2,
+                            ZCLIENTE_CORREO = datoscliente.Email,
+                            //ZAREA_VTAS
+                            ZAREA_VTAS_SALESORG = datoscliente.OrganizacionDeVentas,
+                            ZAREA_VTAS_DISTR_CHAN = datoscliente.CanalDeDistribucion,
+                            ZAREA_VTAS_DIVISION = datoscliente.Division,
+                            ZAREA_VTAS_STCD1 = documentoformateado
+                        };
+                        RespuestaCrearCliente r = rep.CrearClienteSap(registrocrearcliente);
+                        return new RespuestaInsUpdCliente()
+                        {
+                            excode = r.excode,
+                            exdetail = r.exdetail,
+                            idClienteSap = r.idSapCliente
+                        };
+                    }
+                    else
+                    {
+                        //actualizar
+                        RegistroActualizarCliente registroactualizarcliente = new RegistroActualizarCliente()
+                        {
+                            PI_CUSTOMERNO = cliente.CUSTOMERNO,
+                            PI_SALESORG = datoscliente.OrganizacionDeVentas,
+                            PI_DISTR_CHAN = datoscliente.CanalDeDistribucion,
+                            PI_DIVISION = datoscliente.Division,
+                            PI_STCD1 = documentoformateado,
+                            //ZCLIENTE
+                            ZCLIENTE_NAME_FIRST = datoscliente.Nombre,
+                            ZCLIENTE_NAME_LAST = datoscliente.Apellido,
+                            ZCLIENTE_STREET = datoscliente.Direccion,
+                            ZCLIENTE_POST_CODE1 = datoscliente.CodigoPostal,
+                            ZCLIENTE_REGION = datoscliente.Estado,
+                            ZCLIENTE_CITY1 = datoscliente.Ciudad,
+                            ZCLIENTE_COUNTRY = datoscliente.Pais,
+                            ZCLIENTE_REMARK = datoscliente.PuntoDeReferencia,
+                            ZCLIENTE_TEL_NUMBER = datoscliente.Telefono1,
+                            ZCLIENTE_MOB_NUMBER = datoscliente.Telefono2,
+                            ZCLIENTE_CORREO = datoscliente.Email
+                        };
+                        RespuestaActualizarCliente r = rep.ActualizarClienteSap(registroactualizarcliente);
+                        return new RespuestaInsUpdCliente()
+                        {
+                            excode = r.excode,
+                            exdetail = r.exdetail,
+                            idClienteSap = r.idSapClientePrincipal
+                        };
+                    }
+                }
+                else
+                {
+                    return new RespuestaInsUpdCliente()
+                    {
+                        excode = -2,
+                        exdetail = "Archivo entrada vacío"
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaInsUpdCliente()
+                {
+                    excode = ex.HResult,
+                    exdetail = ex.Message
+                };
+            }
+        }
+
+        public RespuestaInsUpdDelDireccion InsUpdDelDireccion(string jsonString)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(jsonString))
+                {
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    DatosDireccion datosdireccion = serializer.Deserialize<DatosDireccion>(jsonString);
+                    RepositorioSAP.SapParametros parametros = new RepositorioSAP.SapParametros()
+                    {
+                        Name = datosdireccion.Name,
+                        User = datosdireccion.User,
+                        Password = datosdireccion.Password,
+                        Client = datosdireccion.Client,
+                        Language = datosdireccion.Language,
+                        AppServerHost = datosdireccion.AppServerHost,
+                        SystemNumber = datosdireccion.SystemNumber,
+                        PoolSize = datosdireccion.PoolSize,
+                        ConnectionIdleTimeout = datosdireccion.ConnectionIdleTimeout
+                    };
+                    RepositorioSAP rep = new RepositorioSAP(parametros);
+                    string documentoformateado1 = FormatearDocumento(datosdireccion.DocumentoPrincipal);
+                    if (documentoformateado1 == "")
+                    {
+                        return new RespuestaInsUpdDelDireccion()
+                        {
+                            excode = -1,
+                            exdetail = "Formato incorrecto Documento"
+                        };
+                    }
+                    string documentoformateado2 = FormatearDocumento(datosdireccion.DocumentoAlterno);
+                    if (documentoformateado2 == "")
+                    {
+                        return new RespuestaInsUpdDelDireccion()
+                        {
+                            excode = -1,
+                            exdetail = "Formato incorrecto Documento"
+                        };
+                    }
+                    //actualizar
+                    RegistroActualizarCliente registroactualizarcliente = new RegistroActualizarCliente()
+                    {
+                        PI_CUSTOMERNO = datosdireccion.idClienteSapPrincipal,
+                        PI_SALESORG = datosdireccion.OrganizacionDeVentas,
+                        PI_DISTR_CHAN = datosdireccion.CanalDeDistribucion,
+                        PI_DIVISION = datosdireccion.Division,
+                        PI_STCD1 = documentoformateado1,
+                        //Z_DIRECC
+                        Z_DIRECC_KUNNR = datosdireccion.idClienteSapAlterno,
+                        Z_DIRECC_STCD1 = documentoformateado2,
+                        Z_DIRECC_NAME_FIRST = datosdireccion.Nombre,
+                        Z_DIRECC_NAME_LAST = datosdireccion.Apellido,
+                        Z_DIRECC_STREET = datosdireccion.Dirección,
+                        Z_DIRECC_POST_CODE1 = datosdireccion.CodigoPostal,
+                        Z_DIRECC_REGION = datosdireccion.Estado,
+                        Z_DIRECC_CITY1 = datosdireccion.Ciudad,
+                        Z_DIRECC_COUNTRY = datosdireccion.Pais,
+                        Z_DIRECC_REMARK = datosdireccion.PuntoDeReferencia,
+                        Z_DIRECC_TEL_NUMBER = datosdireccion.Telefono1,
+                        Z_DIRECC_MOB_NUMBER = datosdireccion.Telefono2,
+                        Z_DIRECC_CORREO = datosdireccion.Email,
+                        Z_DIRECC_ACCION = datosdireccion.Accion
+                    };
+                    RespuestaActualizarCliente r = rep.ActualizarClienteSap(registroactualizarcliente);
+                    return new RespuestaInsUpdDelDireccion()
+                    {
+                        excode = r.excode,
+                        exdetail = r.exdetail,
+                        idClienteSapPrincipal = r.idSapClientePrincipal,
+                        idClienteSapAlterno = r.idSapClienteAlterno
+                    };
+                }
+                else
+                {
+                    return new RespuestaInsUpdDelDireccion()
+                    {
+                        excode = -2,
+                        exdetail = "Archivo entrada vacío"
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaInsUpdDelDireccion()
+                {
+                    excode = ex.HResult,
+                    exdetail = ex.Message
+                };
+            }
+        }
+
+        private string FormatearDocumento(string Documento)
+        {
+            //V-14566318  => V-14566318-0
+            //V-2896298   => V-02896298-0
+            //J-123456789 => J-12345678-9
+            if (Documento.Length < 11)
+            {
+                return Documento.Substring(0, 2) + Documento.Substring(2).PadLeft(8, '0') + "-0";
+            }
+            if (Documento.Length == 11)
+            {
+                return Documento.Substring(0, 10) + "-" + Documento.Substring(10);
             }
             else
             {
-                return null;
+                return "";
             }
         }
-        
     }
 }
