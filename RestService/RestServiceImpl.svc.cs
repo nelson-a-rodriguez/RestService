@@ -52,7 +52,7 @@ namespace RestService
                         new RegistroInventario()
                         {
                             excode = -2,
-                        exdetail = "Archivo entrada vacío"
+                            exdetail = "Archivo entrada vacío"
                         }
                     };
                 }
@@ -283,7 +283,7 @@ namespace RestService
                             exdetail = "Formato incorrecto Documento"
                         };
                     }
-                    //actualizar
+                    //insertar, actualizar o eliminar direccion alterna
                     RegistroActualizarCliente registroactualizarcliente = new RegistroActualizarCliente()
                     {
                         PI_CUSTOMERNO = datosdireccion.idClienteSapPrincipal,
@@ -334,6 +334,157 @@ namespace RestService
                 };
             }
         }
+
+        public RespuestaInsOferta InsOferta(string jsonString)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(jsonString))
+                {
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    DatosOferta datosoferta = serializer.Deserialize<DatosOferta>(jsonString);
+                    RepositorioSAP.SapParametros parametros = new RepositorioSAP.SapParametros()
+                    {
+                        Name = datosoferta.Name,
+                        User = datosoferta.User,
+                        Password = datosoferta.Password,
+                        Client = datosoferta.Client,
+                        Language = datosoferta.Language,
+                        AppServerHost = datosoferta.AppServerHost,
+                        SystemNumber = datosoferta.SystemNumber,
+                        PoolSize = datosoferta.PoolSize,
+                        ConnectionIdleTimeout = datosoferta.ConnectionIdleTimeout
+                    };
+                    RepositorioSAP rep = new RepositorioSAP(parametros);
+                    string documentoformateado = FormatearDocumento(datosoferta.SOLICITANTE);
+                    if (documentoformateado == "")
+                    {
+                        return new RespuestaInsOferta()
+                        {
+                            excode = -1,
+                            exdetail = "Formato incorrecto Documento"
+                        };
+                    }
+                    string documentoformateado2 = FormatearDocumento(datosoferta.DESTINATARIO);
+                    if (documentoformateado2 == "")
+                    {
+                        return new RespuestaInsOferta()
+                        {
+                            excode = -1,
+                            exdetail = "Formato incorrecto Documento 2"
+                        };
+                    }
+
+                    RegistroCrearOferta registrocrearoferta = new RegistroCrearOferta()
+                    {
+                        DIRECT = datosoferta.DIRECT,
+                        IDOCTYP = datosoferta.IDOCTYP,
+                        MANDT = datosoferta.MANDT,
+                        MESTYP = datosoferta.MESTYP,
+                        RCVPOR = datosoferta.RCVPOR,
+                        RCVPRN = datosoferta.RCVPRN,
+                        RCVPRT = datosoferta.RCVPRT,
+                        SNDPOR = datosoferta.SNDPOR,
+                        SNDPRN = datosoferta.SNDPRN,
+                        SNDPRT = datosoferta.SNDPRT,
+                        //ZCLIENTE
+                        ZSD_OFERTA1_AUART = datosoferta.CLASE_DE_OFERTA,
+                        ZSD_OFERTA1_VKORG = datosoferta.ORGANIZACION,
+                        ZSD_OFERTA1_VTWEG = datosoferta.CANAL,
+                        ZSD_OFERTA1_SPART = datosoferta.SECTOR,
+                        ZSD_OFERTA1_KUNNR = datosoferta.SOLICITANTE,
+                        ZSD_OFERTA1_KUNNR2 = datosoferta.DESTINATARIO,
+                        ZSD_OFERTA1_BSTKD = datosoferta.N_INTERNET,
+                        ZSD_OFERTA1_BSTDK = datosoferta.FECHA_PEDIDO,
+                        ZSD_OFERTA1_ANGDT = datosoferta.VALIDO_DESDE,
+                        ZSD_OFERTA1_BNDDT = datosoferta.VALIDO_HASTA,
+                        ZSD_OFERTA1_BNDDT2 = datosoferta.FECHA_ENTREGA,
+                        ZSD_OFERTA1_TDLINE = datosoferta.TEXTO,
+                        ZSD_OFERTA1_XFELD = datosoferta.RETIRAR_POR_SUCURSAL,
+                        ZSD_OFERTA1_WERKS_D = datosoferta.SUCURSAL,
+                    };
+                    foreach (PosicionOferta p in datosoferta.POSICIONES_OFERTA)
+                    {
+                        RegistroPosicionCrearOferta p2 = new RegistroPosicionCrearOferta()
+                        {
+                            ZSD_OFERTA2_POSNR_VA = p.POSICION,
+                            ZSD_OFERTA2_MATNR = p.MATERIAL,
+                            ZSD_OFERTA2_KWMENG = p.CANTIDAD,
+                            ZSD_OFERTA2_VRKME = p.UNIDAD_MEDIDA_DE_VENTA,
+                            ZSD_OFERTA2_WERKS_EXT = p.CENTRO
+                        };
+                        registrocrearoferta.POSICIONES_OFERTA.Add(p2);
+                    }
+                    RespuestaCrearOferta r = rep.CrearOfertaSap(registrocrearoferta);
+                    return new RespuestaInsOferta()
+                    {
+                        excode = r.excode,
+                        exdetail = r.exdetail,
+                        idOfertaSap = r.idSapOferta
+                    };
+                }
+                else
+                {
+                    return new RespuestaInsOferta()
+                    {
+                        excode = -2,
+                        exdetail = "Archivo entrada vacío"
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaInsOferta()
+                {
+                    excode = ex.HResult,
+                    exdetail = ex.Message
+                };
+            }
+        }
+
+        public RegistroFactura Factura(string sPedido,string jsonString)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(jsonString))
+                {
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    DatosConexion datosconexion = serializer.Deserialize<DatosConexion>(jsonString);
+                    RepositorioSAP.SapParametros parametros = new RepositorioSAP.SapParametros()
+                    {
+                        Name = datosconexion.Name,
+                        User = datosconexion.User,
+                        Password = datosconexion.Password,
+                        Client = datosconexion.Client,
+                        Language = datosconexion.Language,
+                        AppServerHost = datosconexion.AppServerHost,
+                        SystemNumber = datosconexion.SystemNumber,
+                        PoolSize = datosconexion.PoolSize,
+                        ConnectionIdleTimeout = datosconexion.ConnectionIdleTimeout
+                    };
+                    RepositorioSAP rep = new RepositorioSAP(parametros);
+                    RegistroFactura resultado = rep.ConsultarFactura(sPedido);
+                    return resultado;
+                }
+                else
+                {
+                    return new RegistroFactura()
+                    {
+                        excode = -2,
+                        exdetail = "Archivo entrada vacío"
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new RegistroFactura()
+                {
+                    excode = ex.HResult,
+                    exdetail = ex.Message
+                };
+            }
+        }
+
 
         private string FormatearDocumento(string Documento)
         {
