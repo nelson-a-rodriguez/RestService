@@ -12,6 +12,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
 using Newtonsoft.Json.Linq;
+using WEBSUMA;
 
 
 namespace RestService
@@ -43,7 +44,7 @@ namespace RestService
                     };
                     RepositorioSAP rep = new RepositorioSAP(parametros);
                     List<RegistroInventario> resultado = rep.ConsultarInventario(sCentro, sJerarquiaWeb);
-                    return resultado;
+                    return resultado.OrderBy(x => x.NOMBRE_L).ToList();
                 }
                 else
                 {
@@ -70,7 +71,6 @@ namespace RestService
             }
         }
 
-
         public List<RegistroJerarquiaWeb> JerarquiaWeb(string jsonString)
         {
             try
@@ -93,7 +93,7 @@ namespace RestService
                     };
                     RepositorioSAP rep = new RepositorioSAP(parametros);
                     List<RegistroJerarquiaWeb> resultado = rep.ConsultarJerarquiaWeb();
-                    return resultado;
+                    return resultado.OrderBy(x => x.STUFE).ThenBy(x => x.VTEXT).ToList();
                 }
                 else
                 {
@@ -102,7 +102,7 @@ namespace RestService
                         new RegistroJerarquiaWeb()
                         {
                             excode = -2,
-                        exdetail = "Archivo entrada vacío"
+                            exdetail = "Archivo entrada vacío"
                         }
                     };
                 }
@@ -356,25 +356,6 @@ namespace RestService
                         ConnectionIdleTimeout = datosoferta.ConnectionIdleTimeout
                     };
                     RepositorioSAP rep = new RepositorioSAP(parametros);
-                    string documentoformateado = FormatearDocumento(datosoferta.SOLICITANTE);
-                    if (documentoformateado == "")
-                    {
-                        return new RespuestaInsOferta()
-                        {
-                            excode = -1,
-                            exdetail = "Formato incorrecto Documento"
-                        };
-                    }
-                    string documentoformateado2 = FormatearDocumento(datosoferta.DESTINATARIO);
-                    if (documentoformateado2 == "")
-                    {
-                        return new RespuestaInsOferta()
-                        {
-                            excode = -1,
-                            exdetail = "Formato incorrecto Documento 2"
-                        };
-                    }
-
                     RegistroCrearOferta registrocrearoferta = new RegistroCrearOferta()
                     {
                         DIRECT = datosoferta.DIRECT,
@@ -403,6 +384,7 @@ namespace RestService
                         ZSD_OFERTA1_XFELD = datosoferta.RETIRAR_POR_SUCURSAL,
                         ZSD_OFERTA1_WERKS_D = datosoferta.SUCURSAL,
                     };
+                    registrocrearoferta.POSICIONES_OFERTA = new List<RegistroPosicionCrearOferta>();                    
                     foreach (PosicionOferta p in datosoferta.POSICIONES_OFERTA)
                     {
                         RegistroPosicionCrearOferta p2 = new RegistroPosicionCrearOferta()
@@ -420,7 +402,7 @@ namespace RestService
                     {
                         excode = r.excode,
                         exdetail = r.exdetail,
-                        idOfertaSap = r.idSapOferta
+                        statusOferta = r.statusOferta
                     };
                 }
                 else
@@ -504,5 +486,49 @@ namespace RestService
                 return "";
             }
         }
+
+
+        public List<RegistroDireccion> Direcciones()
+        {
+            try
+            {
+                RepositorioSuma rep = new RepositorioSuma();
+                List<RegistroDireccion> direcciones = rep.ConsultarDireccion();
+                return direcciones;
+            }
+            catch (Exception ex)
+            {
+                return new List<RegistroDireccion>()
+                {
+                    new RegistroDireccion()
+                    {
+                        excode = ex.HResult,
+                        exdetail = ex.Message
+                    }
+                };
+            }
+        }
+
+        public List<RegistroInteres> Intereses()
+        {
+            try
+            {
+                RepositorioSuma rep = new RepositorioSuma();
+                List<RegistroInteres> intereses = rep.ConsultarInteres();
+                return intereses;
+            }
+            catch (Exception ex)
+            {
+                return new List<RegistroInteres>()
+                {
+                    new RegistroInteres()
+                    {
+                        excode = ex.HResult,
+                        exdetail = ex.Message
+                    }
+                };
+            }
+        }
+
     }
 }

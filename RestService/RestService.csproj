@@ -94,6 +94,10 @@
       <Project>{afbd5f0f-0ef0-43c5-811f-d96acea057d7}</Project>
       <Name>RFCWEBSAP</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WEBSUMA\WEBSUMA.csproj">
+      <Project>{52358516-809d-44a5-aef6-b5b89662785c}</Project>
+      <Name>WEBSUMA</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

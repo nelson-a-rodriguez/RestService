@@ -7,6 +7,7 @@ using System.ServiceModel;
 using System.Text;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
+using WEBSUMA;
 
 namespace RestService
 {
@@ -55,6 +56,20 @@ namespace RestService
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "factura/{sPedido}")]
         RegistroFactura Factura(string sPedido, string jsonString);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            //RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "direcciones")]
+        List<RegistroDireccion> Direcciones();
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            //RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "intereses")]
+        List<RegistroInteres> Intereses();
     }
 
     [DataContract]

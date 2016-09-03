@@ -128,31 +128,47 @@ namespace SampleRestWeb
                         + "\"SystemNumber\" : \"00\","
                         + "\"PoolSize\" : \"10\","
                         + "\"ConnectionIdleTimeout\" : \"10\","
-                        + "\"DIRECT\" : \"\","
-                        + "\"IDOCTYP\" : \"\","
-                        + "\"MANDT\" : \"\","
-                        + "\"MESTYP\" : \"\","
-                        + "\"RCVPOR\" : \"\","
-                        + "\"RCVPRN\" : \"\","
-                        + "\"RCVPRT\" : \"\","
-                        + "\"SNDPOR\" : \"\","
-                        + "\"SNDPRN\" : \"\","
-                        + "\"SNDPRT\" : \"\","
-                        + "\"Documento\" : \"V-2896298\","
-                        + "\"Nombre\" : \"QAaaaaaa\","
-                        + "\"Apellido\" : \"QAaaaaaaa\","
-                        + "\"Direccion\" : \"QAAAAAAAAAAA\","
-                         + "\"Ciudad\" : \"QAAAAAAAAAAA\","
-                        + "\"Pais\" : \"VE\","
-                        + "\"Estado\" : \"VAR\","
-                        + "\"CodigoPostal\" : \"1070\","
-                        + "\"PuntoDeReferencia\" : \"QAaaaaaaaaaaaaa\","
-                        + "\"Telefono1\" : \"22222222\","
-                        + "\"Telefono2\" : \"22222222\","
-                        + "\"Email\" : \"222@2.com\","
-                        + "\"OrganizacionDeVentas\" : \"0100\","
-                        + "\"CanalDeDistribucion\" : \"02\","
-                        + "\"Division\" : \"01\"}";
+                        + "\"DIRECT\" : \"2\","
+                        + "\"IDOCTYP\" : \"Z_OFERTA\","
+                        + "\"MANDT\" : \"300\","
+                        + "\"MESTYP\" : \"ZOFERTA\","
+                        + "\"RCVPOR\" : \"SAPDV1\","
+                        + "\"RCVPRN\" : \"SAP\","
+                        + "\"RCVPRT\" : \"LS\","
+                        + "\"SNDPOR\" : \"WEBX\","
+                        + "\"SNDPRN\" : \"WEBPLZ\","
+                        + "\"SNDPRT\" : \"LS\","
+                        + "\"CLASE_DE_OFERTA\" : \"ZCE0\","
+                        + "\"ORGANIZACION\" : \"0100\","
+                        + "\"CANAL\" : \"02\","
+                        + "\"SECTOR\" : \"01\","
+                        + "\"SOLICITANTE\" : \"0000300271\","
+                        + "\"DESTINATARIO\" : \"0000300271\","
+                        + "\"N_INTERNET\" : \"20002\","
+                        + "\"FECHA_PEDIDO\" : \"20160704\","
+                        + "\"VALIDO_DESDE\" : \"20160707\","
+                        + "\"VALIDO_HASTA\" : \"20160707\","
+                        + "\"FECHA_ENTREGA\" : \"20160707\","
+                        + "\"TEXTO\" : \"CUALQUIER COSA DE LA ORDEN 20002\","
+                        + "\"RETIRAR_POR_SUCURSAL\" : \"X\","
+                        + "\"SUCURSAL\" : \"1017\","
+                        + "\"POSICIONES_OFERTA\" : ["
+
+                        + "{\"POSICION\" : \"000010\","
+                        + "\"MATERIAL\" : \"7702277016786\","
+                        + "\"CANTIDAD\" : \"202\","
+                        + "\"UNIDAD_MEDIDA_DE_VENTA\" : \"PCE\","
+                        + "\"CENTRO\" : \"1017\"},"
+
+                        + "{\"POSICION\" : \"000020\","
+                        + "\"MATERIAL\" : \"7896018700642\","
+                        + "\"CANTIDAD\" : \"202\","
+                        + "\"UNIDAD_MEDIDA_DE_VENTA\" : \"PCE\","
+                        + "\"CENTRO\" : \"1017\"}"
+                                         
+                        + "]"
+                        +"}"; 
+
 
             string jsonStringfactura = "{"
                         + "\"Name\" : \"DV1\","
@@ -163,32 +179,7 @@ namespace SampleRestWeb
                         + "\"AppServerHost\" : \"172.20.3.200\","
                         + "\"SystemNumber\" : \"00\","
                         + "\"PoolSize\" : \"10\","
-                        + "\"ConnectionIdleTimeout\" : \"10\","
-                        + "\"DIRECT\" : \"\","
-                        + "\"IDOCTYP\" : \"\","
-                        + "\"MANDT\" : \"\","
-                        + "\"MESTYP\" : \"\","
-                        + "\"RCVPOR\" : \"\","
-                        + "\"RCVPRN\" : \"\","
-                        + "\"RCVPRT\" : \"\","
-                        + "\"SNDPOR\" : \"\","
-                        + "\"SNDPRN\" : \"\","
-                        + "\"SNDPRT\" : \"\","
-                        + "\"Documento\" : \"V-2896298\","
-                        + "\"Nombre\" : \"QAaaaaaa\","
-                        + "\"Apellido\" : \"QAaaaaaaa\","
-                        + "\"Direccion\" : \"QAAAAAAAAAAA\","
-                         + "\"Ciudad\" : \"QAAAAAAAAAAA\","
-                        + "\"Pais\" : \"VE\","
-                        + "\"Estado\" : \"VAR\","
-                        + "\"CodigoPostal\" : \"1070\","
-                        + "\"PuntoDeReferencia\" : \"QAaaaaaaaaaaaaa\","
-                        + "\"Telefono1\" : \"22222222\","
-                        + "\"Telefono2\" : \"22222222\","
-                        + "\"Email\" : \"222@2.com\","
-                        + "\"OrganizacionDeVentas\" : \"0100\","
-                        + "\"CanalDeDistribucion\" : \"02\","
-                        + "\"Division\" : \"01\"}";
+                        + "\"ConnectionIdleTimeout\" : \"10\"}";                       
             
             //const string url = "http://172.20.1.36/nuevaweb/RestServiceImpl.svc/";
             //const string url = "http://localhost:1307/RestServiceImpl.svc/";
@@ -206,11 +197,11 @@ namespace SampleRestWeb
                 request.Method = Method.POST;
                 request.RequestFormat = DataFormat.Json;
 
-                //request.AddBody(jsonStringjerarquiaweb);
+                //request.AddBody(jsonStringjerarquia);
                 //request.Resource = "/jerarquiaweb";
 
-                //request.AddBody(jsonStringinventario);
-                //request.Resource = "/inventario/1017/13W0100101";
+                request.AddBody(jsonStringinventario);
+                request.Resource = "/inventario/1017/13W0100101";
                 
                 //request.AddBody(jsonStringinsupdcliente);
                 //request.Resource = "/insupdcliente";
@@ -220,10 +211,10 @@ namespace SampleRestWeb
                 
                 //request.AddBody(jsonStringinsoferta);
                 //request.Resource = "/insoferta";
-                
+
                 //request.AddBody(jsonStringfactura);
-                //request.Resource = "/factura/23";
-                
+                //request.Resource = "/factura/20001";
+
                 // The server's Rest method will probably return something 
                 var response = client.Execute(request) as RestResponse;
                 if (response != null && ((response.StatusCode == HttpStatusCode.OK) && (response.ResponseStatus == ResponseStatus.Completed))) // It's probably not necessary to test both

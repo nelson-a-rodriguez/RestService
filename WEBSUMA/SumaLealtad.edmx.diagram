@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0513b1a02b764ff498c82353fb5b21ba" Name="Diagram1">
+        <EntityTypeShape EntityType="SumaLealtadModel.CIUDAD" Width="1.5" PointX="3.125" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="SumaLealtadModel.ESTADO" Width="1.5" PointX="0.875" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SumaLealtadModel.MUNICIPIO" Width="1.5" PointX="5.25" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SumaLealtadModel.PAI" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SumaLealtadModel.PAIS_ESTADO" Width="1.5" PointX="2.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SumaLealtadModel.PARROQUIA" Width="1.5" PointX="7.5" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SumaLealtadModel.URBANIZACION" Width="1.5" PointX="9.75" PointY="3.25" IsExpanded="true" />
+        <AssociationConnector Association="SumaLealtadModel.CIUDAD_MUNICIPIO" ManuallyRouted="false" />
+        <AssociationConnector Association="SumaLealtadModel.ESTADO_CIUDAD" ManuallyRouted="false" />
+        <AssociationConnector Association="SumaLealtadModel.MUNICIPIO_PARROQUIA" ManuallyRouted="false" />
+        <AssociationConnector Association="SumaLealtadModel.PARROQUIA_URBANIZACION" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SumaLealtadModel.Interest" Width="1.5" PointX="7.5" PointY="0.875" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
