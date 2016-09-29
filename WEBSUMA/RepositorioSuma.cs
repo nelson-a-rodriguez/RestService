@@ -11,7 +11,7 @@ namespace WEBSUMA
     {
         public List<RegistroInteres> ConsultarInteres()
         {
-            using (SumaLealtadEntities db = new SumaLealtadEntities())
+            using (Entities db = new Entities())
             {
                 List<RegistroInteres> intereses = new List<RegistroInteres>();                
                 try
@@ -56,7 +56,7 @@ namespace WEBSUMA
 
         public List<RegistroDireccion> ConsultarDireccion()
         {
-            using (SumaLealtadEntities db = new SumaLealtadEntities())
+            using (Entities db = new Entities())
             {
                 List<RegistroDireccion> direcciones = new List<RegistroDireccion>();
                 try
@@ -166,8 +166,273 @@ namespace WEBSUMA
                     direcciones.Add(fila);
                     return direcciones;
                 }
+            }        
+        }
+
+        public List<RegistroTipoDeAfiliacion> ConsultarTipoAfiliacion()
+        {
+            using (Entities db = new Entities())
+            {
+                List<RegistroTipoDeAfiliacion> tiposdeafiliacion = new List<RegistroTipoDeAfiliacion>();
+                try
+                {
+                    var query = (from i in db.Types
+                                 select new RegistroTipoDeAfiliacion()
+                                 {
+                                     excode = 0,
+                                     exdetail = "",
+                                     id = i.id,
+                                     descripcion = i.name,
+                                 }).OrderBy(x => x.descripcion).ToList();
+                    if (query != null)
+                    {
+                        tiposdeafiliacion = query;
+                    }
+                    else
+                    {
+                        RegistroTipoDeAfiliacion fila = new RegistroTipoDeAfiliacion()
+                        {
+                            excode = 0,
+                            exdetail = ""
+                        };
+                        tiposdeafiliacion.Add(fila);
+                    }
+                    return tiposdeafiliacion;
+                }
+                catch (Exception ex)
+                {
+                    tiposdeafiliacion = new List<RegistroTipoDeAfiliacion>();
+                    RegistroTipoDeAfiliacion fila = new RegistroTipoDeAfiliacion()
+                    {
+                        excode = ex.HResult,
+                        exdetail = ex.Message
+                    };
+                    tiposdeafiliacion.Add(fila);
+                    return tiposdeafiliacion;
+                }
             }
         }
 
+        public List<RegistroEstadoCivil> ConsultarEstadoCivil()
+        {
+            using (Entities db = new Entities())
+            {
+                List<RegistroEstadoCivil> estadosciviles = new List<RegistroEstadoCivil>();
+                try
+                {
+                    var query = (from i in db.Civil_Statuses
+                                 select new RegistroEstadoCivil()
+                                 {
+                                     excode = 0,
+                                     exdetail = "",
+                                     id = i.id,
+                                     descripcion = i.name,
+
+                                 }).OrderBy(x => x.descripcion).ToList();
+                    if (query != null)
+                    {
+                        estadosciviles = query;
+                    }
+                    else
+                    {
+                        RegistroEstadoCivil fila = new RegistroEstadoCivil()
+                        {
+                            excode = 0,
+                            exdetail = ""
+                        };
+                        estadosciviles.Add(fila);
+                    }
+                    return estadosciviles;
+                }
+                catch (Exception ex)
+                {
+                    estadosciviles = new List<RegistroEstadoCivil>();
+                    RegistroEstadoCivil fila = new RegistroEstadoCivil()
+                    {
+                        excode = ex.HResult,
+                        exdetail = ex.Message
+                    };
+                    estadosciviles.Add(fila);
+                    return estadosciviles;
+                }
+            }
+        }
+
+        public List<RegistroSexo> ConsultarSexo()
+        {
+            using (Entities db = new Entities())
+            {
+                List<RegistroSexo> sexos = new List<RegistroSexo>();
+                try
+                {
+                    var query = (from i in db.Sexes
+                                 select new RegistroSexo()
+                                 {
+                                     excode = 0,
+                                     exdetail = "",
+                                     id = i.id,
+                                     descripcion = i.name,
+                                 }).OrderBy(x => x.descripcion).ToList();
+                    if (query != null)
+                    {
+                        sexos = query;
+                    }
+                    else
+                    {
+                        RegistroSexo fila = new RegistroSexo()
+                        {
+                            excode = 0,
+                            exdetail = ""
+                        };
+                        sexos.Add(fila);
+                    }
+                    return sexos;
+                }
+                catch (Exception ex)
+                {
+                    sexos = new List<RegistroSexo>();
+                    RegistroSexo fila = new RegistroSexo()
+                    {
+                        excode = ex.HResult,
+                        exdetail = ex.Message
+                    };
+                    sexos.Add(fila);
+                    return sexos;
+                }
+            }
+        }
+
+        public List<RegistroNacionalidad> ConsultarNacionalidad()
+        {
+            using (Entities db = new Entities())
+            {
+                List<RegistroNacionalidad> nacionalidades = new List<RegistroNacionalidad>();
+                try
+                {
+                    var query = (from i in db.Nacionalities
+                                 select new RegistroNacionalidad()
+                                 {
+                                     excode = 0,
+                                     exdetail = "",
+                                     id = i.id,
+                                     descripcion = i.name,
+                                 }).OrderBy(x => x.descripcion).ToList();
+                    if (query != null)
+                    {
+                        nacionalidades = query;
+                    }
+                    else
+                    {
+                        RegistroNacionalidad fila = new RegistroNacionalidad()
+                        {
+                            excode = 0,
+                            exdetail = ""
+                        };
+                        nacionalidades.Add(fila);
+                    }
+                    return nacionalidades;
+                }
+                catch (Exception ex)
+                {
+                    nacionalidades = new List<RegistroNacionalidad>();
+                    RegistroNacionalidad fila = new RegistroNacionalidad()
+                    {
+                        excode = ex.HResult,
+                        exdetail = ex.Message
+                    };
+                    nacionalidades.Add(fila);
+                    return nacionalidades;
+                }
+            }
+        }
+
+        public List<RegistroCanal> ConsultarCanal()
+        {
+            using (Entities db = new Entities())
+            {
+                List<RegistroCanal> canales = new List<RegistroCanal>();
+                try
+                {
+                    var query = (from i in db.Channels
+                                 select new RegistroCanal()
+                                 {
+                                     excode = 0,
+                                     exdetail = "",
+                                     id = i.id,
+                                     descripcion = i.name,
+                                 }).OrderBy(x => x.descripcion).ToList();
+                    if (query != null)
+                    {
+                        canales = query;
+                    }
+                    else
+                    {
+                        RegistroCanal fila = new RegistroCanal()
+                        {
+                            excode = 0,
+                            exdetail = ""
+                        };
+                        canales.Add(fila);
+                    }
+                    return canales;
+                }
+                catch (Exception ex)
+                {
+                    canales = new List<RegistroCanal>();
+                    RegistroCanal fila = new RegistroCanal()
+                    {
+                        excode = ex.HResult,
+                        exdetail = ex.Message
+                    };
+                    canales.Add(fila);
+                    return canales;
+                }
+            }
+        }
+
+        public List<RegistroSucursal> ConsultarSucursal()
+        {
+            using (Entities db = new Entities())
+            {
+                List<RegistroSucursal> sucursales = new List<RegistroSucursal>();
+                try
+                {
+                    var query = (from i in db.Stores
+                                 select new RegistroSucursal()
+                                 {
+                                     excode = 0,
+                                     exdetail = "",
+                                     id = i.id,
+                                     descripcion = i.name,
+                                 }).OrderBy(x => x.descripcion).ToList();
+                    if (query != null)
+                    {
+                        sucursales = query;
+                    }
+                    else
+                    {
+                        RegistroSucursal fila = new RegistroSucursal()
+                        {
+                            excode = 0,
+                            exdetail = ""
+                        };
+                        sucursales.Add(fila);
+                    }
+                    return sucursales;
+                }
+                catch (Exception ex)
+                {
+                    sucursales = new List<RegistroSucursal>();
+                    RegistroSucursal fila = new RegistroSucursal()
+                    {
+                        excode = ex.HResult,
+                        exdetail = ex.Message
+                    };
+                    sucursales.Add(fila);
+                    return sucursales;
+                }
+            }
+        }
+        
     }
 }

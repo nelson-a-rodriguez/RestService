@@ -13,9 +13,9 @@ namespace WEBSUMA
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class SumaLealtadEntities : DbContext
+    public partial class Entities : DbContext
     {
-        public SumaLealtadEntities()
+        public Entities()
             : base("name=SumaLealtadEntities")
         {
         }
@@ -25,13 +25,19 @@ namespace WEBSUMA
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<Channel> Channels { get; set; }
         public DbSet<CIUDAD> CIUDADES { get; set; }
+        public DbSet<Civil_Status> Civil_Statuses { get; set; }
         public DbSet<ESTADO> ESTADOS { get; set; }
-        public DbSet<MUNICIPIO> MUNICIPIOS { get; set; }
-        public DbSet<PAI> PAIS { get; set; }
-        public DbSet<PAIS_ESTADO> PAIS_ESTADO { get; set; }
-        public DbSet<PARROQUIA> PARROQUIAS { get; set; }
-        public DbSet<URBANIZACION> URBANIZACIONES { get; set; }
         public DbSet<Interest> Interests { get; set; }
+        public DbSet<MUNICIPIO> MUNICIPIOS { get; set; }
+        public DbSet<Nacionality> Nacionalities { get; set; }
+        public DbSet<PAIS> PAISES { get; set; }
+        public DbSet<PAIS_ESTADO> PAIS_ESTADOS { get; set; }
+        public DbSet<PARROQUIA> PARROQUIAS { get; set; }
+        public DbSet<Sex> Sexes { get; set; }
+        public DbSet<Store> Stores { get; set; }
+        public DbSet<Type> Types { get; set; }
+        public DbSet<URBANIZACION> URBANIZACIONES { get; set; }
     }
 }

@@ -70,6 +70,48 @@ namespace RestService
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "intereses")]
         List<RegistroInteres> Intereses();
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            //RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "tiposdeafiliacion")]
+        List<RegistroTipoDeAfiliacion> TiposDeAfiliacion();
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            //RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "estadosciviles")]
+        List<RegistroEstadoCivil> EstadosCiviles();
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            //RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "sexos")]
+        List<RegistroSexo> Sexos();
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            //RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "nacionalidades")]
+        List<RegistroNacionalidad> Nacionalidades();
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            //RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "canales")]
+        List<RegistroCanal> Canales();
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            //RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "sucursales")]
+        List<RegistroSucursal> Sucursales();
     }
 
     [DataContract]

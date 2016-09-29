@@ -21,7 +21,8 @@ namespace WEBSUMA
         {
             RepositorioSuma rep = new RepositorioSuma();
             //rep.ConsultarInteres();
-            rep.ConsultarDireccion();
+            //rep.ConsultarDireccion();
+            rep.ConsultarCanal();
         }
     }
 }

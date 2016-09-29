@@ -530,5 +530,133 @@ namespace RestService
             }
         }
 
+
+
+        public List<RegistroTipoDeAfiliacion> TiposDeAfiliacion()
+        {
+            try
+            {
+                RepositorioSuma rep = new RepositorioSuma();
+                List<RegistroTipoDeAfiliacion> tiposdeafiliacion = rep.ConsultarTipoAfiliacion();
+                return tiposdeafiliacion;
+            }
+            catch (Exception ex)
+            {
+                return new List<RegistroTipoDeAfiliacion>()
+                {
+                    new RegistroTipoDeAfiliacion()
+                    {
+                        excode = ex.HResult,
+                        exdetail = ex.Message
+                    }
+                };
+            }
+        }
+
+        public List<RegistroEstadoCivil> EstadosCiviles()
+        {
+            try
+            {
+                RepositorioSuma rep = new RepositorioSuma();
+                List<RegistroEstadoCivil> estadosciviles = rep.ConsultarEstadoCivil();
+                return estadosciviles;
+            }
+            catch (Exception ex)
+            {
+                return new List<RegistroEstadoCivil>()
+                {
+                    new RegistroEstadoCivil()
+                    {
+                        excode = ex.HResult,
+                        exdetail = ex.Message
+                    }
+                };
+            }
+        }
+
+        public List<RegistroSexo> Sexos()
+        {
+            try
+            {
+                RepositorioSuma rep = new RepositorioSuma();
+                List<RegistroSexo> sexos = rep.ConsultarSexo();
+                return sexos;
+            }
+            catch (Exception ex)
+            {
+                return new List<RegistroSexo>()
+                {
+                    new RegistroSexo()
+                    {
+                        excode = ex.HResult,
+                        exdetail = ex.Message
+                    }
+                };
+            }
+        }
+
+        public List<RegistroNacionalidad> Nacionalidades()
+        {
+            try
+            {
+                RepositorioSuma rep = new RepositorioSuma();
+                List<RegistroNacionalidad> nacionalidades = rep.ConsultarNacionalidad();
+                return nacionalidades;
+            }
+            catch (Exception ex)
+            {
+                return new List<RegistroNacionalidad>()
+                {
+                    new RegistroNacionalidad()
+                    {
+                        excode = ex.HResult,
+                        exdetail = ex.Message
+                    }
+                };
+            }
+        }
+
+        public List<RegistroCanal> Canales()
+        {
+            try
+            {
+                RepositorioSuma rep = new RepositorioSuma();
+                List<RegistroCanal> canales = rep.ConsultarCanal();
+                return canales;
+            }
+            catch (Exception ex)
+            {
+                return new List<RegistroCanal>()
+                {
+                    new RegistroCanal()
+                    {
+                        excode = ex.HResult,
+                        exdetail = ex.Message
+                    }
+                };
+            }
+        }
+
+        public List<RegistroSucursal> Sucursales()
+        {
+            try
+            {
+                RepositorioSuma rep = new RepositorioSuma();
+                List<RegistroSucursal> sucursales = rep.ConsultarSucursal();
+                return sucursales;
+            }
+            catch (Exception ex)
+            {
+                return new List<RegistroSucursal>()
+                {
+                    new RegistroSucursal()
+                    {
+                        excode = ex.HResult,
+                        exdetail = ex.Message
+                    }
+                };
+            }
+        }
+
     }
 }

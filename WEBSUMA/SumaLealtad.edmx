@@ -4,19 +4,25 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SumaLealtadModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SumaLealtadModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="SumaLealtadModelStoreContainer">
+          <EntitySet Name="Channel" EntityType="SumaLealtadModel.Store.Channel" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="CIUDAD" EntityType="SumaLealtadModel.Store.CIUDAD" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="CIUDAD_MUNICIPIO" EntityType="SumaLealtadModel.Store.CIUDAD_MUNICIPIO" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Civil_Status" EntityType="SumaLealtadModel.Store.Civil_Status" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ESTADO" EntityType="SumaLealtadModel.Store.ESTADO" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ESTADO_CIUDAD" EntityType="SumaLealtadModel.Store.ESTADO_CIUDAD" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Interest" EntityType="SumaLealtadModel.Store.Interest" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="MUNICIPIO" EntityType="SumaLealtadModel.Store.MUNICIPIO" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="MUNICIPIO_PARROQUIA" EntityType="SumaLealtadModel.Store.MUNICIPIO_PARROQUIA" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Nacionality" EntityType="SumaLealtadModel.Store.Nacionality" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PAIS" EntityType="SumaLealtadModel.Store.PAIS" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PAIS_ESTADO" EntityType="SumaLealtadModel.Store.PAIS_ESTADO" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PARROQUIA" EntityType="SumaLealtadModel.Store.PARROQUIA" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PARROQUIA_URBANIZACION" EntityType="SumaLealtadModel.Store.PARROQUIA_URBANIZACION" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Sex" EntityType="SumaLealtadModel.Store.Sex" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Store" EntityType="SumaLealtadModel.Store.Store" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Type" EntityType="SumaLealtadModel.Store.Type" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="URBANIZACION" EntityType="SumaLealtadModel.Store.URBANIZACION" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_CIUDAD_MUNICIPIO_CIUDAD" Association="SumaLealtadModel.Store.FK_CIUDAD_MUNICIPIO_CIUDAD">
             <End Role="CIUDAD" EntitySet="CIUDAD" />
@@ -51,6 +57,13 @@
             <End Role="PARROQUIA_URBANIZACION" EntitySet="PARROQUIA_URBANIZACION" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Channel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" Nullable="false" MaxLength="25" />
+        </EntityType>
         <EntityType Name="CIUDAD">
           <Key>
             <PropertyRef Name="COD_CIUDAD" />
@@ -65,6 +78,14 @@
           </Key>
           <Property Name="COD_CIUDAD" Type="varchar" Nullable="false" MaxLength="12" />
           <Property Name="COD_MUNICIPIO" Type="varchar" Nullable="false" MaxLength="12" />
+        </EntityType>
+        <EntityType Name="Civil_Status">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" Nullable="false" MaxLength="25" />
+          <Property Name="abbrev" Type="varchar" Nullable="false" MaxLength="1" />
         </EntityType>
         <EntityType Name="ESTADO">
           <Key>
@@ -104,6 +125,14 @@
           <Property Name="COD_MUNICIPIO" Type="varchar" Nullable="false" MaxLength="12" />
           <Property Name="COD_PARROQUIA" Type="varchar" Nullable="false" MaxLength="12" />
         </EntityType>
+        <EntityType Name="Nacionality">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" Nullable="false" MaxLength="25" />
+          <Property Name="abbrev" Type="varchar" Nullable="false" MaxLength="1" />
+        </EntityType>
         <EntityType Name="PAIS">
           <Key>
             <PropertyRef Name="COD_PAIS" />
@@ -133,6 +162,30 @@
           </Key>
           <Property Name="COD_PARROQUIA" Type="varchar" Nullable="false" MaxLength="12" />
           <Property Name="COD_URBANIZACION" Type="varchar" Nullable="false" MaxLength="12" />
+        </EntityType>
+        <EntityType Name="Sex">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" Nullable="false" MaxLength="25" />
+          <Property Name="abbrev" Type="varchar" Nullable="false" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="store_code" Type="varchar" Nullable="false" MaxLength="4" />
+          <Property Name="name" Type="varchar" Nullable="false" MaxLength="25" />
+          <Property Name="abbrev" Type="varchar" Nullable="false" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" Nullable="false" MaxLength="25" />
         </EntityType>
         <EntityType Name="URBANIZACION">
           <Key>
@@ -253,17 +306,25 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SumaLealtadModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="SumaLealtadEntities" p1:LazyLoadingEnabled="true">
+        <EntityContainer Name="Entities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Channels" EntityType="SumaLealtadModel.Channel" />
           <EntitySet Name="CIUDADES" EntityType="SumaLealtadModel.CIUDAD" />
+          <EntitySet Name="Civil_Statuses" EntityType="SumaLealtadModel.Civil_Status" />
           <EntitySet Name="ESTADOS" EntityType="SumaLealtadModel.ESTADO" />
+          <EntitySet Name="Interests" EntityType="SumaLealtadModel.Interest" />
           <EntitySet Name="MUNICIPIOS" EntityType="SumaLealtadModel.MUNICIPIO" />
-          <EntitySet Name="PAIS" EntityType="SumaLealtadModel.PAI" />
-          <EntitySet Name="PAIS_ESTADO" EntityType="SumaLealtadModel.PAIS_ESTADO" />
+          <EntitySet Name="Nacionalities" EntityType="SumaLealtadModel.Nacionality" />
+          <EntitySet Name="PAISES" EntityType="SumaLealtadModel.PAIS" />
+          <EntitySet Name="PAIS_ESTADOS" EntityType="SumaLealtadModel.PAIS_ESTADO" />
           <EntitySet Name="PARROQUIAS" EntityType="SumaLealtadModel.PARROQUIA" />
+          <EntitySet Name="Sexes" EntityType="SumaLealtadModel.Sex" />
+          <EntitySet Name="Stores" EntityType="SumaLealtadModel.Store" />
+          <EntitySet Name="Types" EntityType="SumaLealtadModel.Type" />
           <EntitySet Name="URBANIZACIONES" EntityType="SumaLealtadModel.URBANIZACION" />
           <AssociationSet Name="CIUDAD_MUNICIPIO" Association="SumaLealtadModel.CIUDAD_MUNICIPIO">
             <End Role="CIUDAD" EntitySet="CIUDADES" />
@@ -281,8 +342,14 @@
             <End Role="PARROQUIA" EntitySet="PARROQUIAS" />
             <End Role="URBANIZACION" EntitySet="URBANIZACIONES" />
           </AssociationSet>
-          <EntitySet Name="Interests" EntityType="SumaLealtadModel.Interest" />
         </EntityContainer>
+        <EntityType Name="Channel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="25" Unicode="false" FixedLength="false" />
+        </EntityType>
         <EntityType Name="CIUDAD">
           <Key>
             <PropertyRef Name="COD_CIUDAD" />
@@ -292,6 +359,14 @@
           <NavigationProperty Name="MUNICIPIOs" Relationship="SumaLealtadModel.CIUDAD_MUNICIPIO" FromRole="CIUDAD" ToRole="MUNICIPIO" />
           <NavigationProperty Name="ESTADOes" Relationship="SumaLealtadModel.ESTADO_CIUDAD" FromRole="CIUDAD" ToRole="ESTADO" />
         </EntityType>
+        <EntityType Name="Civil_Status">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="25" Unicode="false" FixedLength="false" />
+          <Property Name="abbrev" Type="String" Nullable="false" MaxLength="1" Unicode="false" FixedLength="false" />
+        </EntityType>
         <EntityType Name="ESTADO">
           <Key>
             <PropertyRef Name="COD_ESTADO" />
@@ -299,6 +374,14 @@
           <Property Name="COD_ESTADO" Type="String" Nullable="false" MaxLength="12" Unicode="false" FixedLength="false" />
           <Property Name="DESCRIPC_ESTADO" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="CIUDADs" Relationship="SumaLealtadModel.ESTADO_CIUDAD" FromRole="ESTADO" ToRole="CIUDAD" />
+        </EntityType>
+        <EntityType Name="Interest">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="120" Unicode="false" FixedLength="false" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="MUNICIPIO">
           <Key>
@@ -309,7 +392,15 @@
           <NavigationProperty Name="CIUDADs" Relationship="SumaLealtadModel.CIUDAD_MUNICIPIO" FromRole="MUNICIPIO" ToRole="CIUDAD" />
           <NavigationProperty Name="PARROQUIAs" Relationship="SumaLealtadModel.MUNICIPIO_PARROQUIA" FromRole="MUNICIPIO" ToRole="PARROQUIA" />
         </EntityType>
-        <EntityType Name="PAI">
+        <EntityType Name="Nacionality">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="25" Unicode="false" FixedLength="false" />
+          <Property Name="abbrev" Type="String" Nullable="false" MaxLength="1" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="PAIS">
           <Key>
             <PropertyRef Name="COD_PAIS" />
           </Key>
@@ -332,6 +423,30 @@
           <Property Name="DESCRIPC_PARROQUIA" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="MUNICIPIOs" Relationship="SumaLealtadModel.MUNICIPIO_PARROQUIA" FromRole="PARROQUIA" ToRole="MUNICIPIO" />
           <NavigationProperty Name="URBANIZACIONs" Relationship="SumaLealtadModel.PARROQUIA_URBANIZACION" FromRole="PARROQUIA" ToRole="URBANIZACION" />
+        </EntityType>
+        <EntityType Name="Sex">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="25" Unicode="false" FixedLength="false" />
+          <Property Name="abbrev" Type="String" Nullable="false" MaxLength="1" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="store_code" Type="String" Nullable="false" MaxLength="4" Unicode="false" FixedLength="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="25" Unicode="false" FixedLength="false" />
+          <Property Name="abbrev" Type="String" Nullable="false" MaxLength="15" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="25" Unicode="false" FixedLength="false" />
         </EntityType>
         <EntityType Name="URBANIZACION">
           <Key>
@@ -357,25 +472,34 @@
           <End Role="PARROQUIA" Type="SumaLealtadModel.PARROQUIA" Multiplicity="*" />
           <End Role="URBANIZACION" Type="SumaLealtadModel.URBANIZACION" Multiplicity="*" />
         </Association>
-        <EntityType Name="Interest">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="name" Nullable="false" MaxLength="120" FixedLength="false" Unicode="false" />
-          <Property Type="Boolean" Name="active" Nullable="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="SumaLealtadModelStoreContainer" CdmEntityContainer="SumaLealtadEntities">
+        <EntityContainerMapping StorageEntityContainer="SumaLealtadModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Channels">
+            <EntityTypeMapping TypeName="SumaLealtadModel.Channel">
+              <MappingFragment StoreEntitySet="Channel">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CIUDADES">
             <EntityTypeMapping TypeName="SumaLealtadModel.CIUDAD">
               <MappingFragment StoreEntitySet="CIUDAD">
                 <ScalarProperty Name="COD_CIUDAD" ColumnName="COD_CIUDAD" />
                 <ScalarProperty Name="DESCRIPC_CIUDAD" ColumnName="DESCRIPC_CIUDAD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Civil_Statuses">
+            <EntityTypeMapping TypeName="SumaLealtadModel.Civil_Status">
+              <MappingFragment StoreEntitySet="Civil_Status">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="abbrev" ColumnName="abbrev" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -387,6 +511,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Interests">
+            <EntityTypeMapping TypeName="SumaLealtadModel.Interest">
+              <MappingFragment StoreEntitySet="Interest">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="active" ColumnName="active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="MUNICIPIOS">
             <EntityTypeMapping TypeName="SumaLealtadModel.MUNICIPIO">
               <MappingFragment StoreEntitySet="MUNICIPIO">
@@ -395,15 +528,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PAIS">
-            <EntityTypeMapping TypeName="SumaLealtadModel.PAI">
+          <EntitySetMapping Name="Nacionalities">
+            <EntityTypeMapping TypeName="SumaLealtadModel.Nacionality">
+              <MappingFragment StoreEntitySet="Nacionality">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="abbrev" ColumnName="abbrev" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PAISES">
+            <EntityTypeMapping TypeName="SumaLealtadModel.PAIS">
               <MappingFragment StoreEntitySet="PAIS">
                 <ScalarProperty Name="COD_PAIS" ColumnName="COD_PAIS" />
                 <ScalarProperty Name="DESCRIPC_PAIS" ColumnName="DESCRIPC_PAIS" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PAIS_ESTADO">
+          <EntitySetMapping Name="PAIS_ESTADOS">
             <EntityTypeMapping TypeName="SumaLealtadModel.PAIS_ESTADO">
               <MappingFragment StoreEntitySet="PAIS_ESTADO">
                 <ScalarProperty Name="COD_PAIS" ColumnName="COD_PAIS" />
@@ -416,6 +558,33 @@
               <MappingFragment StoreEntitySet="PARROQUIA">
                 <ScalarProperty Name="COD_PARROQUIA" ColumnName="COD_PARROQUIA" />
                 <ScalarProperty Name="DESCRIPC_PARROQUIA" ColumnName="DESCRIPC_PARROQUIA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sexes">
+            <EntityTypeMapping TypeName="SumaLealtadModel.Sex">
+              <MappingFragment StoreEntitySet="Sex">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="abbrev" ColumnName="abbrev" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stores">
+            <EntityTypeMapping TypeName="SumaLealtadModel.Store">
+              <MappingFragment StoreEntitySet="Store">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="store_code" ColumnName="store_code" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="abbrev" ColumnName="abbrev" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Types">
+            <EntityTypeMapping TypeName="SumaLealtadModel.Type">
+              <MappingFragment StoreEntitySet="Type">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -459,15 +628,6 @@
               <ScalarProperty Name="COD_URBANIZACION" ColumnName="COD_URBANIZACION" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="Interests">
-            <EntityTypeMapping TypeName="SumaLealtadModel.Interest">
-              <MappingFragment StoreEntitySet="Interest">
-                <ScalarProperty Name="active" ColumnName="active" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -482,7 +642,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

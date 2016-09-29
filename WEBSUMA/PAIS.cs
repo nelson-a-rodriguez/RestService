@@ -12,7 +12,7 @@ namespace WEBSUMA
     using System;
     using System.Collections.Generic;
     
-    public partial class PAI
+    public partial class PAIS
     {
         public string COD_PAIS { get; set; }
         public string DESCRIPC_PAIS { get; set; }
