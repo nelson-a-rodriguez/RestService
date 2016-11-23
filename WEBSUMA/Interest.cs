@@ -14,8 +14,15 @@ namespace WEBSUMA
     
     public partial class Interest
     {
+        public Interest()
+        {
+            this.CustomerInterests = new HashSet<CustomerInterest>();
+        }
+    
         public int id { get; set; }
         public string name { get; set; }
         public bool active { get; set; }
+    
+        public virtual ICollection<CustomerInterest> CustomerInterests { get; set; }
     }
 }

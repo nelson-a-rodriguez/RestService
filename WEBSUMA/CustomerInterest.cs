@@ -12,16 +12,12 @@ namespace WEBSUMA
     using System;
     using System.Collections.Generic;
     
-    public partial class Channel
+    public partial class CustomerInterest
     {
-        public Channel()
-        {
-            this.Affiliates = new HashSet<Affiliate>();
-        }
+        public int customerid { get; set; }
+        public int interestid { get; set; }
+        public string comments { get; set; }
     
-        public int id { get; set; }
-        public string name { get; set; }
-    
-        public virtual ICollection<Affiliate> Affiliates { get; set; }
+        public virtual Interest Interest { get; set; }
     }
 }

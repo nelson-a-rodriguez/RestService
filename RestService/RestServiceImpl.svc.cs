@@ -13,6 +13,9 @@ using System.Configuration;
 using System.Data;
 using Newtonsoft.Json.Linq;
 using WEBSUMA;
+using System.IO;
+using System.Web;
+using System.Drawing;
 
 
 namespace RestService
@@ -384,7 +387,7 @@ namespace RestService
                         ZSD_OFERTA1_XFELD = datosoferta.RETIRAR_POR_SUCURSAL,
                         ZSD_OFERTA1_WERKS_D = datosoferta.SUCURSAL,
                     };
-                    registrocrearoferta.POSICIONES_OFERTA = new List<RegistroPosicionCrearOferta>();                    
+                    registrocrearoferta.POSICIONES_OFERTA = new List<RegistroPosicionCrearOferta>();
                     foreach (PosicionOferta p in datosoferta.POSICIONES_OFERTA)
                     {
                         RegistroPosicionCrearOferta p2 = new RegistroPosicionCrearOferta()
@@ -424,7 +427,7 @@ namespace RestService
             }
         }
 
-        public RegistroFactura Factura(string sPedido,string jsonString)
+        public RegistroFactura Factura(string sPedido, string jsonString)
         {
             try
             {
@@ -656,6 +659,251 @@ namespace RestService
                     }
                 };
             }
+        }
+
+        public RespuestaFindAfiliacionSuma FindAfiliacionSuma(string sDocNumber)
+        {
+            try
+            {
+                RepositorioSuma rep = new RepositorioSuma();
+                RespuestaFindAfiliacionSuma afiliacion = rep.FindAfiliacionSuma(sDocNumber);
+                return afiliacion;
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaFindAfiliacionSuma()
+                {
+                    excode = ex.HResult,
+                    exdetail = ex.Message,
+                    idAfiliacion = 0
+                };
+            }
+        }
+
+        public RespuestaInsAfiliacionSuma InsAfiliacionSuma(string jsonString)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(jsonString))
+                {
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    DatosAfiliacionSuma datosoafiliacionsuma = serializer.Deserialize<DatosAfiliacionSuma>(jsonString);
+                    RegistroCrearAfiliacionSuma registrocrearafiliacionsuma = new RegistroCrearAfiliacionSuma()
+                    {
+                        docnumber = datosoafiliacionsuma.docnumber,
+                        clientid = datosoafiliacionsuma.clientid,
+                        storeid = datosoafiliacionsuma.storeid, 
+                        channelid = datosoafiliacionsuma.channelid, 
+                        typeid = datosoafiliacionsuma.typeid, 
+                        sumastatusid = datosoafiliacionsuma.sumastatusid,
+                        typedelivery = datosoafiliacionsuma.typedelivery,
+                        twitter_account = datosoafiliacionsuma.twitter_account,
+                        facebook_account = datosoafiliacionsuma.facebook_account,
+                        instagram_account = datosoafiliacionsuma.instagram_account,
+                        //ENTIDAD CLIENTE
+                        nationality = datosoafiliacionsuma.nationality,
+                        name = datosoafiliacionsuma.name,
+                        name2 = datosoafiliacionsuma.name2,
+                        lastname1 = datosoafiliacionsuma.lastname1,
+                        lastname2 = datosoafiliacionsuma.lastname2,
+                        birthdate = datosoafiliacionsuma.birthdate,
+                        gender = datosoafiliacionsuma.gender,
+                        maritalstatus = datosoafiliacionsuma.maritalstatus,
+                        occupation = datosoafiliacionsuma.occupation,
+                        phone1 = datosoafiliacionsuma.phone1,
+                        phone2 = datosoafiliacionsuma.phone2,
+                        phone3 = datosoafiliacionsuma.phone3,
+                        email = datosoafiliacionsuma.email,
+                        cod_estado = datosoafiliacionsuma.cod_estado,
+                        cod_ciudad = datosoafiliacionsuma.cod_ciudad,
+                        cod_municipio = datosoafiliacionsuma.cod_municipio,
+                        cod_parroquia = datosoafiliacionsuma.cod_parroquia,
+                        cod_urbanizacion = datosoafiliacionsuma.cod_urbanizacion,
+                        //ENTIDAD CustomerInterest
+                        Intereses = datosoafiliacionsuma.Intereses,
+                        usuarioAfiliacion = datosoafiliacionsuma.usuarioAfiliacion
+                    };
+                    RepositorioSuma rep = new RepositorioSuma();
+                    RespuestaInsAfiliacionSuma afiliacion = rep.InsAfiliacionSuma(registrocrearafiliacionsuma);
+                    return afiliacion;
+                }
+                else
+                {
+                    return new RespuestaInsAfiliacionSuma()
+                    {
+                        excode = -2,
+                        exdetail = "Archivo entrada vacío",
+                        idAfiliacion = 0
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaInsAfiliacionSuma()
+                {
+                    excode = ex.HResult,
+                    exdetail = ex.Message,
+                    idAfiliacion = 0
+                };
+            }
+        }
+
+        public RespuestaInsImagenAfiliacionSuma InsImagenAfiliacionSuma(string idAfiliacion, string tamano, Stream stream)
+        {
+            try
+            {
+                if (stream == null)
+                {
+                    return new RespuestaInsImagenAfiliacionSuma()
+                    {
+                        excode = -1,
+                        exdetail = "El archivo está vacío",
+                        idAfiliacion = 0
+                    };                
+                }
+
+                byte[] buffer = new byte[Convert.ToInt32(tamano)];
+                MemoryStream ms = new MemoryStream();
+                int bytesRead, totalBytesRead = 0;
+                do
+                {
+                    bytesRead = stream.Read(buffer, 0, buffer.Length);
+                    totalBytesRead += bytesRead;
+
+                    ms.Write(buffer, 0, bytesRead);
+                } while (bytesRead > 0); 
+                FileStream f = new FileStream("C:\\pruebana\\sample.jpg", FileMode.OpenOrCreate);
+                f.Write(buffer, 0, buffer.Length);
+                f.Close();
+                stream.Close();
+
+                return new RespuestaInsImagenAfiliacionSuma()
+                {
+                    excode = 0,
+                    exdetail = "recibido",
+                    idAfiliacion = 0
+                };
+
+                //1////guardar el archivo en disco
+                //byte[] buffer = new byte[51200];
+                //stream.Read(buffer, 0, 51200);
+                //FileStream f = new FileStream("C:\\pruebana\\sample.jpg", FileMode.OpenOrCreate);
+                //f.Write(buffer, 0, buffer.Length);
+                //f.Close();
+                //stream.Close();
+                //return new RespuestaInsImagenAfiliacionSuma()
+                //{
+                //    excode = 0,
+                //    exdetail = "recibido",
+                //    idAfiliacion = 0
+                //}; 
+
+                //2
+                ////System.Drawing.Bitmap imag = new System.Drawing.Bitmap(stream);
+                //ImageConverter converter = new ImageConverter();
+                //byte[] imagedata = (byte[])converter.ConvertTo(imag, typeof(byte[]));
+                //if (imagedata.Length > 51200)
+                //{
+                //    return new RespuestaInsImagenAfiliacionSuma()
+                //    {
+                //        excode = -2,
+                //        exdetail = "El archivo tiene un tamaño superior a 50 Kb",
+                //        idAfiliacion = 0
+                //    };
+                //}
+                //RepositorioSuma rep = new RepositorioSuma();
+                //RespuestaInsImagenAfiliacionSuma afiliacion = rep.InsImagenAfiliacionSuma(Convert.ToInt32(idAfiliacion), imagedata, "image/jpeg");
+                //return afiliacion;
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaInsImagenAfiliacionSuma()
+                {
+                    excode = ex.HResult,
+                    exdetail = ex.Message,
+                    idAfiliacion = 0
+                };
+            }            
+        }
+
+        public RespuestaInsImagenAfiliacionSuma InsImagenAfiliacionSuma2(string fileName, string description, Stream fileContents)
+        {
+            byte[] buffer = new byte[32768];
+            MemoryStream ms = new MemoryStream();
+            int bytesRead, totalBytesRead = 0;
+            do
+            {
+                bytesRead = fileContents.Read(buffer, 0, buffer.Length);
+                totalBytesRead += bytesRead;
+
+                ms.Write(buffer, 0, bytesRead);
+            } while (bytesRead > 0);
+
+            //// Save the photo on database.
+            //using (DataAcess data = new DataAcess())
+            //{
+            //    var photo = new Photo() { Name = fileName, Description = description, Data = ms.ToArray(), DateTime = DateTime.UtcNow };
+            //    data.InsertPhoto(photo);
+            //}
+            
+            //RepositorioSuma rep = new RepositorioSuma();
+            //RespuestaInsImagenAfiliacionSuma afiliacion = rep.InsImagenAfiliacionSuma(131295, ms.ToArray(), "image/jpeg");
+            //return afiliacion;
+
+            FileStream f = new FileStream("C:\\pruebana\\sample.jpg", FileMode.OpenOrCreate);
+            f.Write(buffer, 0, buffer.Length);
+            f.Close();
+            ms.Close();
+
+            return null;
+            
+            //Console.WriteLine("Uploaded file {0} with {1} bytes", fileName, totalBytesRead);
+        }
+
+        public RespuestaInsImagenAfiliacionSuma InsImagenAfiliacionSuma(string sIdAfiliacion, string jsonString)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(jsonString))
+                {
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    DatosArchivo datosarchivo = serializer.Deserialize<DatosArchivo>(jsonString);
+                    byte[] base64EncodedBytes = System.Convert.FromBase64String(datosarchivo.base64EncodedData);
+                    if (base64EncodedBytes.Length > 51200)
+                    {
+                        return new RespuestaInsImagenAfiliacionSuma()
+                        {
+                            excode = -1,
+                            exdetail = "El archivo tiene un tamaño superior a 50 Kb",
+                            idAfiliacion = 0
+                        };
+                    }
+                    else
+                    {
+                        RepositorioSuma rep = new RepositorioSuma();
+                        RespuestaInsImagenAfiliacionSuma afiliacion = rep.InsImagenAfiliacionSuma(131295, base64EncodedBytes, "image/jpeg");
+                        return afiliacion;
+                    }
+                }
+                else
+                {
+                    return new RespuestaInsImagenAfiliacionSuma()
+                    {
+                        excode = -2,
+                        exdetail = "Archivo entrada vacío",
+                        idAfiliacion = 0
+                    };
+                }                
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaInsImagenAfiliacionSuma()
+                {
+                    excode = ex.HResult,
+                    exdetail = ex.Message,
+                    idAfiliacion = 0
+                };
+            }         
         }
 
     }

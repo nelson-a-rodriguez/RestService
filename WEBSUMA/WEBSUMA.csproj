@@ -51,6 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Affiliate.cs">
+      <DependentUpon>SumaLealtad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AffiliateAud.cs">
+      <DependentUpon>SumaLealtad.tt</DependentUpon>
+    </Compile>
     <Compile Include="Channel.cs">
       <DependentUpon>SumaLealtad.tt</DependentUpon>
     </Compile>
@@ -58,6 +64,12 @@
       <DependentUpon>SumaLealtad.tt</DependentUpon>
     </Compile>
     <Compile Include="Civil_Status.cs">
+      <DependentUpon>SumaLealtad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CLIENTE.cs">
+      <DependentUpon>SumaLealtad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerInterest.cs">
       <DependentUpon>SumaLealtad.tt</DependentUpon>
     </Compile>
     <Compile Include="ESTADO.cs">
@@ -81,6 +93,10 @@
     <Compile Include="PARROQUIA.cs">
       <DependentUpon>SumaLealtad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Photos_Affiliate.cs">
+      <DependentUpon>SumaLealtad.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RegistroCrearAfiliacionSuma.cs" />
     <Compile Include="RegistroEstadoCivil.cs" />
     <Compile Include="RegistroSexo.cs" />
     <Compile Include="RegistroNacionalidad.cs" />
@@ -98,6 +114,9 @@
     <Compile Include="RegistroDireccion.cs" />
     <Compile Include="RegistroInteres.cs" />
     <Compile Include="RepositorioSuma.cs" />
+    <Compile Include="RespuestaFindAfiliacionSuma.cs" />
+    <Compile Include="RespuestaInsAfiliacionSuma.cs" />
+    <Compile Include="RespuestaInsImagenAfiliacionSuma.cs" />
     <Compile Include="Sex.cs">
       <DependentUpon>SumaLealtad.tt</DependentUpon>
     </Compile>
@@ -166,7 +185,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

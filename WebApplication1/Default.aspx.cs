@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestService;
 using System.Data.SqlClient;
+using System.IO;
 
 namespace SampleRestWeb
 {
@@ -23,7 +24,7 @@ namespace SampleRestWeb
         //Entorno entornojson = new Entorno();
 
         protected void Page_Load(object sender, EventArgs e)
-        {
+        {   
             string jsonStringjerarquia = "{"
                         + "\"Name\" : \"DV1\","
                         + "\"User\" : \"webplz\","
@@ -118,7 +119,7 @@ namespace SampleRestWeb
                         + "\"CanalDeDistribucion\" : \"02\","
                         + "\"Division\" : \"01\"}";
 
-            string jsonStringinsoferta= "{"
+            string jsonStringinsoferta = "{"
                         + "\"Name\" : \"DV1\","
                         + "\"User\" : \"webplz\","
                         + "\"Password\" : \"webplz.2015\","
@@ -165,9 +166,9 @@ namespace SampleRestWeb
                         + "\"CANTIDAD\" : \"202\","
                         + "\"UNIDAD_MEDIDA_DE_VENTA\" : \"PCE\","
                         + "\"CENTRO\" : \"1017\"}"
-                                         
+
                         + "]"
-                        +"}"; 
+                        + "}";
 
 
             string jsonStringfactura = "{"
@@ -179,12 +180,50 @@ namespace SampleRestWeb
                         + "\"AppServerHost\" : \"172.20.3.200\","
                         + "\"SystemNumber\" : \"00\","
                         + "\"PoolSize\" : \"10\","
-                        + "\"ConnectionIdleTimeout\" : \"10\"}";                       
-            
+                        + "\"ConnectionIdleTimeout\" : \"10\"}";
+
+            string jsonStringafiliacionsuma = "{"
+                        + "\"docnumber\" : \"V-14566319\","
+                        + "\"clientid\" : \"12\","
+                        + "\"storeid\" : \"1\"," //valor fijo
+                        + "\"channelid\" : \"2\"," //valor fijo
+                        + "\"typeid\" : \"1\"," //valor fijo
+                        + "\"sumastatusid\" : \"2\"," //valor fijo
+                        + "\"typedelivery\" : \"0\"," //valor fijo
+                        + "\"twitter_account\" : \"\","
+                        + "\"facebook_account\" : \"\","
+                        + "\"instagram_account\" : \"\","
+                        + "\"nationality\" : \"1\","
+                        + "\"name\" : \"Prueba Web\","
+                        + "\"name2\" : \"\","
+                        + "\"lastname1\" : \"Prueba Web\","
+                        + "\"lastname2\" : \"\","
+                        + "\"birthdate\" : \"10/10/2016\","
+                        + "\"gender\" : \"1\","
+                        + "\"maritalstatus\" : \"1\","
+                        + "\"occupation\" : \"Prueba Web\","
+                        + "\"phone1\" : \"2129999999\","
+                        + "\"phone2\" : \"\","
+                        + "\"phone3\" : \"\","
+                        + "\"email\" : \"pruebaweb@pruebaweb.com\","
+                        + "\"cod_estado\" : \"11\","
+                        + "\"cod_ciudad\" : \"228\","
+                        + "\"cod_municipio\" : \"177\","
+                        + "\"cod_parroquia\" : \"599\","
+                        + "\"cod_urbanizacion\" : \"103\","
+                        + "\"Intereses\" : [1,2,3],"
+                        + "\"usuarioAfiliacion\" : \"5\"}";
+
+            byte[] fileToSend = null;
+            fileToSend = File.ReadAllBytes("C:\\prueba.jpg");
+            string base64EncodedData = System.Convert.ToBase64String(fileToSend);
+            string jsonStringinsimagenafiliacionsuma = "{"
+                        + "\"base64EncodedData\" : \"" + base64EncodedData + "\"}";
+
             //const string url = "http://172.20.1.36/nuevaweb/RestServiceImpl.svc/";
             //const string url = "http://localhost:1307/RestServiceImpl.svc/";
-            const string url = "http://172.20.1.36/RestServiceImpl.svc/";            
-            
+            const string url = "http://172.20.1.36/RestServiceImpl.svc/";
+
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             try
             {
@@ -197,23 +236,29 @@ namespace SampleRestWeb
                 request.Method = Method.POST;
                 request.RequestFormat = DataFormat.Json;
 
-                //request.AddBody(jsonStringjerarquia);
-                //request.Resource = "/jerarquiaweb";
+                request.AddBody(jsonStringjerarquia);
+                request.Resource = "/jerarquiaweb";
 
-                request.AddBody(jsonStringinventario);
-                request.Resource = "/inventario/1017/13W0100101";
-                
+                //request.AddBody(jsonStringinventario);
+                //request.Resource = "/inventario/1017/13W0100101";
+
                 //request.AddBody(jsonStringinsupdcliente);
                 //request.Resource = "/insupdcliente";
-                
+
                 //request.AddBody(jsonStringinsupddeldireccion);
                 //request.Resource = "/insupddeldireccion";
-                
+
                 //request.AddBody(jsonStringinsoferta);
                 //request.Resource = "/insoferta";
 
                 //request.AddBody(jsonStringfactura);
                 //request.Resource = "/factura/20001";
+
+                //request.AddBody(jsonStringafiliacionsuma);
+                //request.Resource = "/insafiliacionsuma";
+
+                //request.AddBody(jsonStringinsimagenafiliacionsuma);
+                //request.Resource = "/insimagenafiliacionsuma/131295";
 
                 // The server's Rest method will probably return something 
                 var response = client.Execute(request) as RestResponse;
@@ -233,5 +278,8 @@ namespace SampleRestWeb
                 Response.Write(ex.Message);
             }
         }
+
+
     }
 }
+

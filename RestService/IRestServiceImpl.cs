@@ -8,6 +8,8 @@ using System.Text;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
 using WEBSUMA;
+using System.IO;
+using System.Web;
 
 namespace RestService
 {
@@ -112,6 +114,27 @@ namespace RestService
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "sucursales")]
         List<RegistroSucursal> Sucursales();
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            //RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "findafiliacionsuma/{sDocNumber}")]
+        RespuestaFindAfiliacionSuma FindAfiliacionSuma(string sDocNumber);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "insafiliacionsuma")]
+        RespuestaInsAfiliacionSuma InsAfiliacionSuma(string jsonString);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "insimagenafiliacionsuma/{sIdAfiliacion}")]
+        RespuestaInsImagenAfiliacionSuma InsImagenAfiliacionSuma(string sIdAfiliacion, string jsonString);       
     }
 
     [DataContract]
@@ -354,4 +377,81 @@ namespace RestService
         [DataMember]
         public List<PosicionOferta> POSICIONES_OFERTA { set; get; }        
     }
+
+    [DataContract]
+    public class DatosAfiliacionSuma
+    {
+        //CAMPOR MINIMOS PARA CREAR SOLICITUD DE AFILIACON
+        //ENTIDAD Affiliate
+        [DataMember]
+        public string docnumber { get; set; }           // Documento de Identificación del Afiliado
+        [DataMember]
+        public int clientid { get; set; }               // id de Cliente del Afiliado en WEBPLAZAS
+        [DataMember]
+        public int storeid { get; set; }                // id de Sucursal de Afiliación
+        [DataMember]
+        public int channelid { get; set; }              // id de Canal de Afiliación
+        [DataMember]
+        public int typeid { get; set; }                 // id de Tipo de Afiliación
+        [DataMember]
+        public int sumastatusid { get; set; }           // id de Estatus de Afiliación en Sumastatus
+        [DataMember]
+        public string typedelivery { get; set; }        // Tipo de Envío de WEBPLAZAS
+        [DataMember]
+        public string twitter_account { get; set; }     // cuenta de Twitter
+        [DataMember]
+        public string facebook_account { get; set; }    // cuenta de Facebook
+        [DataMember]
+        public string instagram_account { get; set; }   // cuenta de Instagram        
+        //ENTIDAD CLIENTE
+        [DataMember]
+        public string nationality { get; set; }         // Nacionalidad
+        [DataMember]
+        public string name { get; set; }                // Primer Nombre
+        [DataMember]
+        public string name2 { get; set; }               // Segundo Nombre 
+        [DataMember]
+        public string lastname1 { get; set; }           // Primer Apellido
+        [DataMember]
+        public string lastname2 { get; set; }           // Segundo Apellido 
+        [DataMember]
+        public string birthdate { get; set; }           // Fecha de Nacimiento
+        [DataMember]
+        public string gender { get; set; }              // Sexo
+        [DataMember]
+        public string maritalstatus { get; set; }       // Estado Civil
+        [DataMember]
+        public string occupation { get; set; }          // Ocupación
+        [DataMember]
+        public string phone1 { get; set; }              // Teléfono Habitación
+        [DataMember]
+        public string phone2 { get; set; }              // Teléfono Oficina
+        [DataMember]
+        public string phone3 { get; set; }              // Teléfono Celular
+        [DataMember]
+        public string email { get; set; }               // Email
+        [DataMember]
+        public string cod_estado { get; set; }          // Dirección Codigo Estado
+        [DataMember]
+        public string cod_ciudad { get; set; }          // Dirección Codigo Ciudad
+        [DataMember]
+        public string cod_municipio { get; set; }       // Dirección Codigo Municipio
+        [DataMember]
+        public string cod_parroquia { get; set; }       // Dirección Codigo Parroquia
+        [DataMember]
+        public string cod_urbanizacion { get; set; }    // Dirección Codigo Urbanización    
+        //ENTIDAD CustomerInterest
+        [DataMember]
+        public List<int> Intereses { get; set; }        // Lista de Intereses del Afiliado
+        [DataMember]
+        public int usuarioAfiliacion { get; set; }
+    }
+
+    [DataContract]
+    public class DatosArchivo
+    {
+        [DataMember]
+        public string base64EncodedData { get; set; }
+    }
+
 }

@@ -39,5 +39,10 @@ namespace WEBSUMA
         public DbSet<Store> Stores { get; set; }
         public DbSet<Type> Types { get; set; }
         public DbSet<URBANIZACION> URBANIZACIONES { get; set; }
+        public DbSet<Affiliate> Affiliates { get; set; }
+        public DbSet<CLIENTE> CLIENTES { get; set; }
+        public DbSet<AffiliateAud> AffiliateAuds { get; set; }
+        public DbSet<CustomerInterest> CustomerInterests { get; set; }
+        public DbSet<Photos_Affiliate> Photos_Affiliates { get; set; }
     }
 }

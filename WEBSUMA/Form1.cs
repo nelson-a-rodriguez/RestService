@@ -22,7 +22,8 @@ namespace WEBSUMA
             RepositorioSuma rep = new RepositorioSuma();
             //rep.ConsultarInteres();
             //rep.ConsultarDireccion();
-            rep.ConsultarCanal();
+            //rep.ConsultarCanal();
+            rep.FindAfiliacionSuma("V-14566318");
         }
     }
 }

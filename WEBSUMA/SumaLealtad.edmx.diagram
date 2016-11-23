@@ -23,6 +23,21 @@
         <AssociationConnector Association="SumaLealtadModel.ESTADO_CIUDAD" ManuallyRouted="false" />
         <AssociationConnector Association="SumaLealtadModel.MUNICIPIO_PARROQUIA" ManuallyRouted="false" />
         <AssociationConnector Association="SumaLealtadModel.PARROQUIA_URBANIZACION" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SumaLealtadModel.Affiliate" Width="1.5" PointX="0.5" PointY="9.375" />
+        <AssociationConnector Association="SumaLealtadModel.FK_Affiliate_Channel" />
+        <EntityTypeShape EntityType="SumaLealtadModel.CLIENTE" Width="1.5" PointX="3" PointY="10.25" />
+        <AssociationConnector Association="SumaLealtadModel.CLIENTE_CIVIL_STATUS_ID" />
+        <AssociationConnector Association="SumaLealtadModel.FK__CLIENTE__CIVIL_S__520F23F5" />
+        <AssociationConnector Association="SumaLealtadModel.CLIENTE_NACIONALITY_ID" />
+        <AssociationConnector Association="SumaLealtadModel.CLIENTE_SEX_ID" />
+        <AssociationConnector Association="SumaLealtadModel.CLIENTE_STORE_ID" />
+        <AssociationConnector Association="SumaLealtadModel.FK__CLIENTE__NACIONA__511AFFBC" />
+        <AssociationConnector Association="SumaLealtadModel.FK__CLIENTE__SEX_ID__4F32B74A" />
+        <AssociationConnector Association="SumaLealtadModel.FK__CLIENTE__STORE_I__5026DB83" />
+        <EntityTypeShape EntityType="SumaLealtadModel.AffiliateAud" Width="1.5" PointX="11.192594272639878" PointY="25.141703185225698" />
+        <EntityTypeShape EntityType="SumaLealtadModel.CustomerInterest" Width="1.5" PointX="4.9311953377589557" PointY="26.927725625656418" />
+        <AssociationConnector Association="SumaLealtadModel.FK_CustomerInterest_Interest" />
+        <EntityTypeShape EntityType="SumaLealtadModel.Photos_Affiliate" Width="1.5" PointX="0.54741147931078982" PointY="30.15971028719084" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

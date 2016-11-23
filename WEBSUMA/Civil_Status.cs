@@ -14,8 +14,17 @@ namespace WEBSUMA
     
     public partial class Civil_Status
     {
+        public Civil_Status()
+        {
+            this.CLIENTEs = new HashSet<CLIENTE>();
+            this.CLIENTEs1 = new HashSet<CLIENTE>();
+        }
+    
         public int id { get; set; }
         public string name { get; set; }
         public string abbrev { get; set; }
+    
+        public virtual ICollection<CLIENTE> CLIENTEs { get; set; }
+        public virtual ICollection<CLIENTE> CLIENTEs1 { get; set; }
     }
 }
